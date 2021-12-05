@@ -7,6 +7,8 @@ import Title from '../components/Title';
 import TokenInfo from '../components/VFTHistory';
 import VFTButton from '../components/VFTButton';
 import VuilderInfo from '../components/VuilderInfo';
+import TwitterFeed from '../components/TwitterFeed';
+import TwitterBanner from '../components/TwitterBanner';
 
 const FlexContainer = styled.div`
     display: flex;
@@ -40,6 +42,7 @@ const Background = styled.div`
     background-color: black;
 `;
 
+//TODO: Add the twitter banner of the account
 export default function Vuilder(props: { twttag: string }) {
     return (
         <>
@@ -51,14 +54,16 @@ export default function Vuilder(props: { twttag: string }) {
                     <Container padding={'10px'} bgcolor={'#292F34'} mright={'none'}>
                         <FlexContainerStart>
                             <ProfilePicture twttag={props.twttag} size={'150px'}></ProfilePicture>
-                            <ColumnFlexStartContainer>
-                                <VuilderInfo></VuilderInfo>
-                                <ProfileDescription twttag={props.twttag}></ProfileDescription>
-                            </ColumnFlexStartContainer>
-                            <ColumnFlexContainer>
-                                <VFTButton>Buy</VFTButton>
-                                <VFTButton sell={true}>Sell</VFTButton>
-                            </ColumnFlexContainer>
+                            <FlexContainerStart>
+                                <ColumnFlexContainer>
+                                    <VuilderInfo></VuilderInfo>
+                                    <ProfileDescription twttag={props.twttag}></ProfileDescription>
+                                </ColumnFlexContainer>
+                                <ColumnFlexContainer>
+                                    <VFTButton>Buy</VFTButton>
+                                    <VFTButton sell={true}>Sell</VFTButton>
+                                </ColumnFlexContainer>
+                            </FlexContainerStart>
                         </FlexContainerStart>
                     </Container>
                     <Container padding={'10px'} bgcolor={'#292F34'} mtop={'20px'} mright={'none'}>
@@ -67,9 +72,7 @@ export default function Vuilder(props: { twttag: string }) {
                 </Container>
                 <Container mleft={'25px'}>
                     <FloatRight>
-                        <a className="twitter-timeline" data-width="500" data-height="500" data-theme="dark" href="https://twitter.com/elonmusk?ref_src=twsrc%5Etfw">
-                            Tweets by elonmusk
-                        </a>
+                        <TwitterFeed></TwitterFeed>
                     </FloatRight>
                 </Container>
             </FlexContainer>

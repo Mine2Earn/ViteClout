@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 const StyledP = styled.p`
-    white-space: nowrap;
     margin: 3px;
 `;
 
@@ -13,6 +12,7 @@ const FlexContainer = styled.div`
     display: flex;
     justify-content: flex-start;
     margin-left: 15px;
+    justify-self: flex-start;
 `;
 
 export default function VuilderBlock() {
