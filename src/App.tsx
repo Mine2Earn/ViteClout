@@ -1,23 +1,13 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Navbar from "./components/Navbar";
-import Title from "./components/Title";
-import Description from "./components/Description";
-import Container from "./components/Container";
-import FeaturedVuilders from "./components/FeaturedVuilders";
+import Home from './pages/Home';
+import Vuilder from './pages/Vuilder';
 
 function App() {
-  return (
-    <div className="App">
-      <Navbar></Navbar>
-      <Title>ViteClout</Title>
-      <Container>
-        <Description></Description>
-        <FeaturedVuilders></FeaturedVuilders>
-      </Container>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Vuilder twttag="@elonmusk"></Vuilder>
+        </div>
+    );
 }
 
 export default App;
