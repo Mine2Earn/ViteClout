@@ -2,7 +2,7 @@ import Home from './pages/Home';
 import Vuilder from './pages/Vuilder';
 import { useState, useEffect } from 'react';
 import { UserContext } from './context/UserContext';
-import LinkWallet from './components/linkWallet';
+import LinkWallet from './components/LinkWallet';
 import { useModal } from './hooks/useModal';
 import axios from 'axios';
 
