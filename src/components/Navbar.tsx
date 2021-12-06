@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import ConnectButton from './ConnectButton';
 
 const StyledNavbar = styled.nav`
     font-size: 1.5em;
@@ -18,7 +19,7 @@ export default function Navbar() {
         <StyledNavbar>
             <p>Hey</p>
             <p>Search</p>
-            <p className="left">Login TWTICON - VCICON</p>
+            <ConnectButton />
         </StyledNavbar>
     );
 }
