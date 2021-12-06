@@ -9,6 +9,7 @@ import VFTButton from '../components/VFTButton';
 import VuilderInfo from '../components/VuilderInfo';
 import TwitterFeed from '../components/TwitterFeed';
 import TwitterBanner from '../components/TwitterBanner';
+import ViteConnect from '../components/ViteConnect';
 
 const FlexContainer = styled.div`
     display: flex;
@@ -76,6 +77,7 @@ export default function Vuilder(props: { twttag: string }) {
                     </FloatRight>
                 </Container>
             </FlexContainer>
+            <ViteConnect></ViteConnect>
         </>
     );
 }
