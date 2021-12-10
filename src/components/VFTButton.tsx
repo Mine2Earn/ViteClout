@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useVCMint, useVCSign } from '../hooks/useViteConnect';
+import { useVCMint, useVCSign, useVCTrade } from '../hooks/useViteConnect';
 
 export enum ACTION {
     BUY,
@@ -12,6 +12,7 @@ type StyledProps = {
     type: number;
     children?: any;
     price?: number;
+    tokenId?: string;
 };
 
 const StyledButton = styled.button`
@@ -32,12 +33,28 @@ const StyledButton = styled.button`
 export default function VFTButton(props: StyledProps) {
     let sign = useVCSign();
     let mint = useVCMint();
+    //@ts-ignore
+    let [buy, sell] = useVCTrade(props.tokenId);
 
     let onClick = () => {
         switch (props.type) {
             case ACTION.BUY:
+                buy(props.price)
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
                 break;
             case ACTION.SELL:
+                sell(props.price)
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    });
                 break;
             case ACTION.MINT:
                 mint().then(res => {
