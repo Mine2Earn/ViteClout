@@ -6,10 +6,10 @@ import ProfilePicture from '../components/ProfilePicture';
 import Title from '../components/Title';
 import TokenInfo from '../components/VFTHistory';
 import VFTButton, { ACTION } from '../components/VFTButton';
+import VFTTradeButton from '../components/VFTTradeButton';
 import VuilderInfo from '../components/VuilderInfo';
 import TwitterFeed from '../components/TwitterFeed';
 import TwitterBanner from '../components/TwitterBanner';
-import Test from '../components/Test';
 import VCQRCode from '../components/VCQRCode';
 
 const FlexContainer = styled.div`
@@ -62,8 +62,8 @@ export default function Vuilder(props: { twttag: string }) {
                                     <ProfileDescription twttag={props.twttag}></ProfileDescription>
                                 </ColumnFlexContainer>
                                 <ColumnFlexContainer>
-                                    <VFTButton type={ACTION.BUY}>Buy</VFTButton>
-                                    <VFTButton type={ACTION.SELL}>Sell</VFTButton>
+                                    <VFTTradeButton type={ACTION.BUY} tokenId="vite_8dbacfdd1d1b178632b8aa5c2bd73d9f49e514ff56a81cedfc"></VFTTradeButton>
+                                    <VFTTradeButton type={ACTION.SELL} tokenId="vite_8dbacfdd1d1b178632b8aa5c2bd73d9f49e514ff56a81cedfc"></VFTTradeButton>
                                 </ColumnFlexContainer>
                             </FlexContainerStart>
                         </FlexContainerStart>
@@ -78,9 +78,9 @@ export default function Vuilder(props: { twttag: string }) {
                     </FloatRight>
                 </Container>
             </FlexContainer>
-            <Test></Test>
             <VCQRCode></VCQRCode>
             <VFTButton type={ACTION.SIGN}>Sign</VFTButton>
+            <VFTButton type={ACTION.MINT}>Mint</VFTButton>
         </>
     );
 }
