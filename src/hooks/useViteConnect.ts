@@ -47,18 +47,22 @@ export function useVCMint() {
     };
 }
 
-export function useVCTrade() {
+export function useVCTrade(VFTId: string) {
     const connector: VCConnector = useContext(VCContext);
 
-    let trade = async (forBuy: boolean, price: number) => {
+    let buy = async price => {
         if (!connector.connected) return Promise.reject('ViteConnect no connected');
+
+        console.log('price is ' + price);
 
         let myAccountBlock = createAccountBlock('callContract', {
             address: connector.accounts[0],
             abi: ABI,
-            methodName: 'mint',
+            methodName: 'buyVFT',
             toAddress: CONTRACT_ADDRESS,
-            params: []
+            tokenId: 'tti_5649544520544f4b454e6e40',
+            amount: price.toString(),
+            params: [VFTId]
         }).setProvider(provider);
 
         let log = await myAccountBlock.autoSetPreviousAccountBlock();
@@ -71,11 +75,27 @@ export function useVCTrade() {
         });
     };
 
-    let buy = price => {
-        return trade(true, price);
-    };
-    let sell = price => {
-        return trade(false, price);
+    let sell = async price => {
+        if (!connector.connected) return Promise.reject('ViteConnect no connected');
+
+        console.log('price is ' + price);
+
+        let myAccountBlock = createAccountBlock('callContract', {
+            address: connector.accounts[0],
+            abi: ABI,
+            methodName: 'sellVFT',
+            toAddress: CONTRACT_ADDRESS,
+            params: [VFTId]
+        }).setProvider(provider);
+
+        let log = await myAccountBlock.autoSetPreviousAccountBlock();
+
+        console.log('autoSet', log);
+
+        return connector.sendCustomRequest({
+            method: 'vite_signAndSendTx',
+            params: [{ block: myAccountBlock.accountBlock }]
+        });
     };
 
     return [buy, sell];
