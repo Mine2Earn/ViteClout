@@ -5,6 +5,21 @@ import { UserContext } from './context/UserContext';
 import LinkWallet from './components/LinkWallet';
 import { useModal } from './hooks/useModal';
 import axios from 'axios';
+import Connector from '@vite/connector';
+import React from 'react';
+
+export type VCConnector = {
+    connected: boolean;
+    uri: string;
+    accounts: [string];
+    sendCustomRequest: ({ method: string, params: [any] }) => Promise<any>;
+    createSession: () => Promise<void>;
+    on: (string, Function) => any;
+};
+
+const connector: VCConnector = new Connector({ bridge: 'wss://biforst.vite.net/' });
+
+export const VCContext = React.createContext<VCConnector>(connector);
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,12 +45,14 @@ function App() {
     }, []);
 
     return (
-        <UserContext.Provider value={{ isLoggedIn, user }}>
-            {isShowing && <LinkWallet toggle={toggle} />}
-            <div className="App">
-                <Vuilder twttag="@elonmusk"></Vuilder>
-            </div>
-        </UserContext.Provider>
+        <VCContext.Provider value={connector}>
+            <UserContext.Provider value={{ isLoggedIn, user }}>
+                {isShowing && <LinkWallet toggle={toggle} />}
+                <div className="App">
+                    <Vuilder twttag="@elonmusk"></Vuilder>
+                </div>
+            </UserContext.Provider>
+        </VCContext.Provider>
     );
 }
 
