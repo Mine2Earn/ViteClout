@@ -1,8 +1,22 @@
 import styled from 'styled-components';
+import { useVCMint, useVCSign } from '../hooks/useViteConnect';
+
+export enum ACTION {
+    BUY,
+    SELL,
+    MINT,
+    SIGN
+}
+
+type StyledProps = {
+    type: number;
+    children?: any;
+    price?: number;
+};
 
 const StyledButton = styled.button`
     padding: 1em;
-    background-color: ${(p: { sell?: boolean }) => (p.sell ? '#dc3545' : '#28a745')};
+    background-color: ${(p: { bgType: ACTION }) => (p.bgType === ACTION.SELL ? '#dc3545' : p.bgType === ACTION.BUY ? '#28a745' : '#00A7FF')};
     border: none;
     box-shadow: none;
     border-radius: 6px;
@@ -15,6 +29,32 @@ const StyledButton = styled.button`
     }
 `;
 
-export default function VFTButton(props: { sell?: boolean; children: any }) {
-    return <StyledButton sell={props.sell}>{props.sell ? 'Sell 1 for 0.003 $VITE' : 'Buy 1 for 0.012 $VITE'}</StyledButton>;
+export default function VFTButton(props: StyledProps) {
+    let sign = useVCSign();
+    let mint = useVCMint();
+
+    let onClick = () => {
+        switch (props.type) {
+            case ACTION.BUY:
+                break;
+            case ACTION.SELL:
+                break;
+            case ACTION.MINT:
+                mint().then(res => {
+                    console.log(res);
+                });
+                break;
+            case ACTION.SIGN:
+                sign('Hello').then(res => {
+                    console.log(res);
+                });
+                break;
+        }
+    };
+
+    return (
+        <StyledButton bgType={props.type} onClick={onClick}>
+            {props.children}
+        </StyledButton>
+    );
 }
