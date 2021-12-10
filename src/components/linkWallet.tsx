@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useRef } from 'react';
+import { APIHOST } from '../config';
 
 /**
  * TODO: Should modify it with viteConnect
@@ -9,7 +10,7 @@ export default function LinkWallet({ toggle }: { toggle: () => void }) {
 
     const handleSubmit = () => {
         if (address.current.value !== null) {
-            axios.post('http://localhost:3001/auth/twitter/link', { vite: address.current.value }, { withCredentials: true }).then(() => {
+            axios.post(`${APIHOST}/auth/twitter/link`, { vite: address.current.value }, { withCredentials: true }).then(() => {
                 toggle();
             });
         }

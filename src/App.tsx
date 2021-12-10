@@ -7,6 +7,7 @@ import { useModal } from './hooks/useModal';
 import axios from 'axios';
 import Connector from '@vite/connector';
 import React from 'react';
+import { APIHOST } from './config';
 
 export type VCConnector = {
     connected: boolean;
@@ -28,13 +29,15 @@ function App() {
 
     const fetchAPI = async () => {
         try {
-            const user = await axios.get('http://localhost:3001/auth/success', { withCredentials: true });
+            const user = await axios.get(`${APIHOST}/auth/success`, { withCredentials: true });
             setUser(user.data.user);
             setIsLoggedIn(true);
-            const { status } = await axios.get('http://localhost:3001/auth/twitter/islinked', { withCredentials: true });
+            console.log(user);
+            const { status } = await axios.get(`${APIHOST}/auth/twitter/islinked`, { withCredentials: true });
             if (status === 202) {
                 toggle();
             }
+            console.log(status);
         } catch (error) {
             console.log(error);
         }
