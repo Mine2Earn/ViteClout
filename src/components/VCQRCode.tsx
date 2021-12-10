@@ -5,6 +5,7 @@ import QRCode from 'qrcode.react';
 export default function VCQRCode() {
     const connector = useContext(VCContext);
     const [URI, setURI] = useState<undefined | string>(undefined);
+    const [connected, setConnected] = useState<boolean>(false);
 
     useEffect(() => {
         if (!connector.connected) {
@@ -13,13 +14,15 @@ export default function VCQRCode() {
                 console.log('[VCQRCode] connect uri', connector.uri);
                 setURI(connector.uri);
             });
+        } else {
+            setConnected(true);
         }
 
         connector.on('connect', (error, payload) => {
             if (error) {
                 throw error;
             }
-
+            setConnected(true);
             console.log('Connected');
         });
 
@@ -33,7 +36,7 @@ export default function VCQRCode() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    if (URI) {
+    if (URI && !connected) {
         return (
             <div>
                 <QRCode value={URI} />
@@ -41,5 +44,5 @@ export default function VCQRCode() {
         );
     }
 
-    return <p>CRINGE</p>;
+    return <></>;
 }
