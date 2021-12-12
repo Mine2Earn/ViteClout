@@ -1,13 +1,14 @@
 import Home from './pages/Home';
 import Vuilder from './pages/Vuilder';
 import { useState, useEffect } from 'react';
-import { UserContext } from './context/UserContext';
+import { UserContext, IUser } from './context/UserContext';
 import LinkWallet from './components/LinkWallet';
 import { useModal } from './hooks/useModal';
 import axios from 'axios';
 import Connector from '@vite/connector';
 import React from 'react';
 import { APIHOST } from './config';
+import Account from './pages/Account';
 
 export type VCConnector = {
     connected: boolean;
@@ -24,7 +25,7 @@ export const VCContext = React.createContext<VCConnector>(connector);
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState<IUser>();
     const [isShowing, toggle]: any[] = useModal();
 
     const fetchAPI = async () => {
@@ -52,7 +53,7 @@ function App() {
             <UserContext.Provider value={{ isLoggedIn, user }}>
                 {isShowing && <LinkWallet toggle={toggle} />}
                 <div className="App">
-                    <Vuilder twttag="@elonmusk"></Vuilder>
+                    <Account></Account>
                 </div>
             </UserContext.Provider>
         </VCContext.Provider>
