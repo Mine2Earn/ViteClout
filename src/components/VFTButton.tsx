@@ -13,6 +13,8 @@ type StyledProps = {
     children?: any;
     price?: number;
     tokenId?: string;
+    nonce?: string;
+    cb?: (signedNonce: string) => void;
 };
 
 const StyledButton = styled.button`
@@ -62,9 +64,12 @@ export default function VFTButton(props: StyledProps) {
                 });
                 break;
             case ACTION.SIGN:
-                sign('Hello').then(res => {
-                    console.log(res);
-                });
+                if (props.nonce && props.cb) {
+                    sign(props.nonce).then(res => {
+                        //@ts-ignore
+                        props.cb(res);
+                    });
+                }
                 break;
         }
     };

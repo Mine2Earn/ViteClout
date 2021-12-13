@@ -25,19 +25,20 @@ export const VCContext = React.createContext<VCConnector>(connector);
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState({});
-    const [isShowing, toggle]: any[] = useModal();
+    const [isShowing, toggle]: any[] = useModal(false);
 
     const fetchAPI = async () => {
         try {
-            const user = await axios.get(`${APIHOST}/auth/success`, { withCredentials: true });
-            setUser(user.data.user);
-            setIsLoggedIn(true);
-            console.log(user);
+            const user: any = await axios.get(`${APIHOST}/auth/success`, { withCredentials: true });
+            if (user.data.user.twitter_id) {
+                console.log('Logged in');
+                setUser(user.data.user);
+                setIsLoggedIn(true);
+            }
             const { status } = await axios.get(`${APIHOST}/auth/twitter/islinked`, { withCredentials: true });
             if (status === 202) {
                 toggle();
             }
-            console.log(status);
         } catch (error) {
             console.log(error);
         }

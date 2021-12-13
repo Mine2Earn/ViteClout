@@ -1,8 +1,9 @@
 import { ViteAPI, accountBlock as accountBlockUtils } from '@vite/vitejs';
 import WS_RPC from '@vite/vitejs-ws';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { VCContext, VCConnector } from '../App';
 import { ABI, CONTRACT_ADDRESS } from '../config';
+import { utils } from '@vite/vitejs';
 
 const { createAccountBlock } = accountBlockUtils;
 
@@ -15,9 +16,11 @@ export function useVCSign() {
 
     return (message: string) => {
         if (!connector.connected) return Promise.reject('ViteConnect no connected');
+        const newmsg = utils._Buffer.from(message).toString('base64');
+        console.log('AYOOOOOO\n', newmsg);
         return connector.sendCustomRequest({
             method: 'vite_signMessage',
-            params: [{ message: 'RW5jb2RlIHRoaXMgbWVzc2FnZSBwbHo=' }]
+            params: [{ message: newmsg }]
         });
     };
 }
@@ -99,4 +102,25 @@ export function useVCTrade(VFTId: string) {
     };
 
     return [buy, sell];
+}
+
+export function useVCConnect() {
+    let [connected, setConnected] = useState(false);
+    const connector: VCConnector = useContext(VCContext);
+
+    connector.on('connect', (err, payload) => {
+        if (err) {
+            console.error(err);
+        }
+        setConnected(true);
+    });
+
+    connector.on('disconnect', err => {
+        if (err) {
+            console.error(err);
+        }
+        setConnected(false);
+    });
+
+    return connected;
 }

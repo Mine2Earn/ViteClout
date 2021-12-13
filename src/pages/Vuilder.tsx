@@ -78,9 +78,6 @@ export default function Vuilder(props: { twttag: string }) {
                     </FloatRight>
                 </Container>
             </FlexContainer>
-            <VCQRCode></VCQRCode>
-            <VFTButton type={ACTION.SIGN}>Sign</VFTButton>
-            <VFTButton type={ACTION.MINT}>Mint</VFTButton>
         </>
     );
 }
