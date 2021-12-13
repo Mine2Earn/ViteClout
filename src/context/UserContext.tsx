@@ -4,7 +4,7 @@ export type IUser = {
     displayName: 'string';
     id: string;
     photos: Array<any>;
-    username: string;
+    twitter_tag: string;
     _json: any;
     _raw: any;
 };

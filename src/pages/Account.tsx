@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
+import ConnectButton from '../components/ConnectButton';
 import Container from '../components/Container';
 import Navbar from '../components/Navbar';
 import ProfileDescription from '../components/ProfileDescription';
@@ -33,25 +34,32 @@ export default function Account() {
             <>
                 <Navbar></Navbar>
                 <Title size={2}>
-                    {userInfo.user.displayName} @{userInfo.user.username}
+                    {userInfo.user.displayName} @{userInfo.user.twitter_tag}
                 </Title>
                 <FlexCtn>
                     <LW>
                         <Container bgcolor={'#292F34'}>
                             <p>Type: Vuilder</p>
-                            <ProfilePicture twttag={`@${userInfo.user.username}`}></ProfilePicture>
-                            <ProfileDescription twttag={`@${userInfo.user.username}`}></ProfileDescription>
+                            <ProfilePicture twttag={`@${userInfo.user.twitter_tag}`}></ProfilePicture>
+                            <button>CHANGE PROFILE PICTURE</button>
+                            <ProfileDescription twttag={`@${userInfo.user.twitter_tag}`}></ProfileDescription>
+                            <button>CHANGE DESCRIPTION</button>
                         </Container>
                     </LW>
                     <div>
                         <Container bgcolor={'#292F34'}>
-                            <TokenBalance></TokenBalance>
+                            <TokenBalance address="vite_8dbacfdd1d1b178632b8aa5c2bd73d9f49e514ff56a81cedfc"></TokenBalance>
                         </Container>
                     </div>
                 </FlexCtn>
             </>
         );
     } else {
-        return <></>;
+        // TODO: Show account of user connected with ViteConnect
+        return (
+            <>
+                <ConnectButton></ConnectButton>
+            </>
+        );
     }
 }
