@@ -1,4 +1,5 @@
-import { useContext } from 'react';
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ConnectButton from '../components/ConnectButton';
 import Container from '../components/Container';
@@ -8,6 +9,8 @@ import ProfilePicture from '../components/ProfilePicture';
 import Title from '../components/Title';
 import TokenBalance from '../components/TokenBalance';
 import { UserContext } from '../context/UserContext';
+import { APIHOST } from '../config';
+import Table from '../components/Table';
 
 const FlexCtn = styled.div`
     display: flex;
@@ -26,8 +29,35 @@ const RW = styled.div`
 
 export default function Account() {
     let userInfo = useContext(UserContext);
+    const address = 'vite_8dbacfdd1d1b178632b8aa5c2bd73d9f49e514ff56a81cedfc';
+
+    let header = ['Token id', 'Type', 'Price'];
+    let [body, setBody] = useState<Array<Array<string>>>([]);
 
     console.log(userInfo);
+
+    let getTransactionByHolder = address => {
+        axios
+            .get(`${APIHOST}/transactions/all?holder=${address}`)
+            .then(res => {
+                if (res.data.result) {
+                    const results = res.data.result;
+
+                    const __body = results.map(result => {
+                        return ['@' + result.twitter_tag, result.type ? 'BUY' : 'SELL', `${result.amount}@${result.price / Math.pow(10, 18)} $VITE`];
+                    });
+
+                    setBody(__body);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    };
+
+    useEffect(() => {
+        getTransactionByHolder(address);
+    }, []);
 
     if (userInfo.isLoggedIn && userInfo.user) {
         return (
@@ -48,7 +78,8 @@ export default function Account() {
                     </LW>
                     <div>
                         <Container bgcolor={'#292F34'}>
-                            <TokenBalance address="vite_8dbacfdd1d1b178632b8aa5c2bd73d9f49e514ff56a81cedfc"></TokenBalance>
+                            <TokenBalance address={address}></TokenBalance>
+                            <Table head={header} body={body}></Table>
                         </Container>
                     </div>
                 </FlexCtn>
