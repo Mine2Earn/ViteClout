@@ -24,14 +24,10 @@ const Subtitle = styled.h3`
 
 function Explorer() {
     let header = ['Token id', 'Fan address', 'Type', 'Price'];
-    let [body, setBody] = useState<Array<Array<string>>>([]);
-
     let tokenH = ['Token id', 'Buy price', 'Number of Holders', 'Token sold'];
-    let tokenB = [
-        ['@elonmusk', '12.4 $VITE', '122', '234'],
-        ['@ekazukii', '137 $VITE', '276', '512'],
-        ['@obstinatem', '0.003 $VITE', '0', '0']
-    ];
+
+    let [body, setBody] = useState<Array<Array<string>>>([]);
+    let [tokenB, setTokenB] = useState<Array<Array<string>>>([]);
 
     let setDefaultVal = () => {
         axios
@@ -41,10 +37,10 @@ function Explorer() {
                     const results = res.data.result;
 
                     const __body = results.map(result => {
-                        return ['@elonmusk', result.holder, result.type ? 'BUY' : 'SELL', `${result.amount}@${result.price} $VITE`];
+                        return ['@' + result.twitter_tag, result.holder, result.type ? 'BUY' : 'SELL', `${result.amount}@${result.price / Math.pow(10, 18)} $VITE`];
                     });
-                    console.log(__body);
-                    setBody([...body, ...__body]);
+
+                    setBody(__body);
                 }
             })
             .catch(err => {
@@ -60,8 +56,9 @@ function Explorer() {
                     const results = res.data.result;
 
                     const __body = results.map(result => {
-                        return ['@elonmusk', address, result.type ? 'BUY' : 'SELL', `${result.amount}@${result.price} $VITE`];
+                        return ['@' + result.twitter_tag, address, result.type ? 'BUY' : 'SELL', `${result.amount}@${result.price / Math.pow(10, 18)} $VITE`];
                     });
+
                     setBody(__body);
                 }
             })
@@ -70,21 +67,68 @@ function Explorer() {
             });
     };
 
+    let getAddressByTag = async (twttag: string): Promise<string | undefined> => {
+        try {
+            const res = await axios.get(`${APIHOST}/vuilders/addressfromtag?twitter_tag=${twttag}`);
+            return res.data?.address;
+        } catch (error) {
+            console.error(error);
+            return undefined;
+        }
+    };
+
+    /**
+     * Fetch all transactions of a specific token and update the react state
+     * @param twitterTag - The twitter tag of the Vuilder
+     */
+    let getTransactionByTag = async (twitterTag: string) => {
+        try {
+            // We get the vite address from the Vuilder twitter tag
+            const address = await getAddressByTag(twitterTag);
+            if (!address) return;
+            const response = await axios.get(`${APIHOST}/transactions/getfromtokenid?token_id=${address}`);
+            const results = response.data.result;
+
+            const _body = results.map(result => {
+                return ['@' + result.twitter_tag, result.holder, result.type ? 'BUY' : 'SELL', `${result.amount}@${result.price / Math.pow(10, 18)} $VITE`];
+            });
+
+            setBody(_body);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    let getTokensInfo = async (sort: string) => {
+        try {
+            const response = await axios.get(`${APIHOST}/transactions/getalltokeninfo?orderBy=${sort}`);
+            const results = response.data.result;
+
+            const _tokenB = results.map(result => {
+                return ['@' + result.twitter_tag, `${result.buyPrice} $VITE`, result.holders, result.numberSell];
+            });
+
+            setTokenB(_tokenB);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         setDefaultVal();
+        getTokensInfo('holders');
     }, []);
 
     const onSearch = query => {
         if (wallet.isValidAddress(query)) {
             getTransactionByHolder(query);
         } else {
-            console.log('twt tag');
-            //TODO: Query transactions of VFT
+            getTransactionByTag(query);
         }
     };
     const onChange = e => {
         let sort = e.target.value;
-        // TODO: Query the backend to get sorted VFT
+        getTokensInfo(sort);
     };
 
     return (
@@ -104,7 +148,7 @@ function Explorer() {
                     <Subtitle>Tokens explorer</Subtitle>
                     <label htmlFor="sort">Sort by :</label>
                     <select name="sort" id="sort" onChange={onChange}>
-                        <option value="holder">Number of holder</option>
+                        <option value="holders">Number of holder</option>
                         <option value="price">Buy price</option>
                         <option value="sold">Token solded</option>
                     </select>
