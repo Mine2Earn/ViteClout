@@ -9,8 +9,6 @@ const StyledTH = styled.th`
     text-align: left;
 `;
 
-const StyledCell = styled.td``;
-
 const StyledRow = styled.tr`
     border-top: 1px solid white;
     height: 2em;
@@ -22,7 +20,7 @@ export default function Table(props: { head: Array<string>; body: Array<Array<st
         return (
             <StyledRow>
                 {row.map(el => (
-                    <StyledCell>{el}</StyledCell>
+                    <td>{el}</td>
                 ))}
             </StyledRow>
         );
