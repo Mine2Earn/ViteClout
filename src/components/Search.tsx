@@ -28,14 +28,14 @@ export default function SearchBar(props: { onSearch: Function }) {
                         toast.error('No vuilder found');
                     });
             } else {
-                navigate(`/vuilders/${input}`);
+                navigate(`/vuilder/${input}`);
             }
         }
     };
 
     return (
         <div>
-            <StyledSearch type="text" name="search-query" id="search-query" onKeyDown={onSubmit} placeholder="Search by vuilder name / fan address" />
+            <StyledSearch type="text" name="search-query" id="search-query" onKeyDown={onSubmit} placeholder="Search by vuilder name / fan address and press enter" />
         </div>
     );
 }
