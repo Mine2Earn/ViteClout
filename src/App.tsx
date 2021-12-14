@@ -9,6 +9,7 @@ import Connector from '@vite/connector';
 import React from 'react';
 import { APIHOST } from './config';
 import Account from './pages/Account';
+import { Toaster } from 'react-hot-toast';
 
 export type VCConnector = {
     connected: boolean;
@@ -49,14 +50,17 @@ function App() {
     }, []);
 
     return (
-        <VCContext.Provider value={connector}>
-            <UserContext.Provider value={{ isLoggedIn, user }}>
-                {isShowing && <LinkWallet toggle={toggle} />}
-                <div className="App">
-                    <Account></Account>
-                </div>
-            </UserContext.Provider>
-        </VCContext.Provider>
+        <>
+            <Toaster position="top-right" reverseOrder={false} />
+            <VCContext.Provider value={connector}>
+                <UserContext.Provider value={{ isLoggedIn, user }}>
+                    {isShowing && <LinkWallet toggle={toggle} />}
+                    <div className="App">
+                        <Account></Account>
+                    </div>
+                </UserContext.Provider>
+            </VCContext.Provider>
+        </>
     );
 }
 
