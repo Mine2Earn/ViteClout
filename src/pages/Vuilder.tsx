@@ -59,7 +59,7 @@ export default function Vuilder(props: { twttag: string }) {
                         </FlexContainerStart>
                     </Container>
                     <Container padding={'10px'} bgcolor={'#292F34'} mtop={'20px'} mright={'none'}>
-                        <TokenInfo></TokenInfo>
+                        <TokenInfo address={address}></TokenInfo>
                     </Container>
                 </Container>
                 <Container mleft={'25px'}>

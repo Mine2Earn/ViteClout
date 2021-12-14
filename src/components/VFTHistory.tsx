@@ -1,42 +1,27 @@
-import styled from 'styled-components';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { APIHOST } from '../config';
+import Table from './Table';
 
-const StyledTable = styled.table`
-    font-size: 1em;
-    text-overflow: ellipsis;
-    width: 100%;
-`;
+export default function TokenInfo({ address }: { address: string | undefined }) {
+    const header = ['Fan address', 'Operation', 'Price'];
+    const [body, setBody] = useState<Array<Array<string>>>([]);
 
-//TODO: Connect with the database
-export default function TokenInfo() {
-    return (
-        <StyledTable>
-            <thead>
-                <th>Vite address</th>
-                <th>Operation</th>
-                <th>Amount</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>vite_99bf4a247462870dd...</td>
-                    <td>BUY</td>
-                    <td>4@12.78 $VFT</td>
-                </tr>
-                <tr>
-                    <td>vite_48895412bb0959e6...</td>
-                    <td>BUY</td>
-                    <td>1@9.45 $VFT</td>
-                </tr>
-                <tr>
-                    <td>vite_99bf4a247462870dd...</td>
-                    <td>SELL</td>
-                    <td>1@9.45 $VFT</td>
-                </tr>
-                <tr>
-                    <td>vite_83d2aac7f89f82793f...</td>
-                    <td>BUY</td>
-                    <td>4@6.93 $VFT</td>
-                </tr>
-            </tbody>
-        </StyledTable>
-    );
+    const refresh = async () => {
+        const response = await axios.get(`${APIHOST}/transactions/getfromtokenid?token_id=${address}`);
+        const results = response.data.result;
+
+        const _body = results.map(result => {
+            return [result.holder, result.type ? 'BUY' : 'SELL', `${result.amount}@${result.price / Math.pow(10, 18)} $VITE`];
+        });
+
+        setBody(_body);
+    };
+
+    useEffect(() => {
+        if (address) refresh();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [address]);
+
+    return <Table head={header} body={body}></Table>;
 }
