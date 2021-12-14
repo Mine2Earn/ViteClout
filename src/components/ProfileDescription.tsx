@@ -4,7 +4,7 @@ const Desc = styled.div`
     margin: 10px 20px;
 `;
 
-export default function ProfilePicture(props: { twttag: string; size?: string }) {
+export default function ProfileDescription(props: { twttag: string; size?: string }) {
     return (
         <Desc>
             <cite>
