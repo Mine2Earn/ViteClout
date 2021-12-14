@@ -11,7 +11,7 @@ import { APIHOST } from './config';
 import Account from './pages/Account';
 import Explorer from './pages/Explorer';
 import { Toaster } from 'react-hot-toast';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
 
 export type VCConnector = {
     connected: boolean;
@@ -46,6 +46,15 @@ function App() {
         fetchAPI();
     }, []);
 
+    const Middle = () => {
+        const { tag } = useParams();
+        if (tag) {
+            return <Vuilder twttag={tag} />;
+        } else {
+            return <Vuilder twttag="ElonMusk" />;
+        }
+    };
+
     return (
         <>
             <Toaster position="top-right" reverseOrder={false} />
@@ -55,7 +64,7 @@ function App() {
                         {isShowing && <LinkWallet toggle={toggle} />}
                         <Router>
                             <Routes>
-                                <Route path="/vuilder" element={<Vuilder twttag="ElonMusk" />} />
+                                <Route path="/vuilder/:tag" element={<Middle />} />
                                 <Route path="/account" element={<Account />} />
                                 <Route path="/explorer" element={<Explorer />} />
                                 <Route path="*" element={<Home />} />
