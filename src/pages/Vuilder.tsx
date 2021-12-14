@@ -5,12 +5,13 @@ import ProfileDescription from '../components/ProfileDescription';
 import ProfilePicture from '../components/ProfilePicture';
 import Title from '../components/Title';
 import TokenInfo from '../components/VFTHistory';
-import VFTButton, { ACTION } from '../components/VFTButton';
+import { ACTION } from '../components/VFTButton';
 import VFTTradeButton from '../components/VFTTradeButton';
 import VuilderInfo from '../components/VuilderInfo';
 import TwitterFeed from '../components/TwitterFeed';
-import TwitterBanner from '../components/TwitterBanner';
-import VCQRCode from '../components/VCQRCode';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { APIHOST } from '../config';
 
 const FlexContainer = styled.div`
     display: flex;
@@ -29,23 +30,25 @@ const ColumnFlexContainer = styled.div`
     margin-left: 15px;
 `;
 
-const ColumnFlexStartContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-left: 15px;
-`;
-
 const FloatRight = styled.div`
     margin-left: auto;
 `;
 
-const Background = styled.div`
-    background-color: black;
-`;
-
 //TODO: Add the twitter banner of the account
 export default function Vuilder(props: { twttag: string }) {
+    const [address, setAddress] = useState('');
+
+    useEffect(() => {
+        axios
+            .get(`${APIHOST}/vuilders/addressfromtag?twitter_tag=${props.twttag}`)
+            .then(res => {
+                if (res.status === 200 && res.data.message === 'Ok' && res.data.address) {
+                    setAddress(res.data.address);
+                }
+            })
+            .catch(console.error);
+    });
+
     return (
         <>
             <Navbar></Navbar>
@@ -62,8 +65,8 @@ export default function Vuilder(props: { twttag: string }) {
                                     <ProfileDescription twttag={props.twttag}></ProfileDescription>
                                 </ColumnFlexContainer>
                                 <ColumnFlexContainer>
-                                    <VFTTradeButton type={ACTION.BUY} tokenId="vite_8dbacfdd1d1b178632b8aa5c2bd73d9f49e514ff56a81cedfc"></VFTTradeButton>
-                                    <VFTTradeButton type={ACTION.SELL} tokenId="vite_8dbacfdd1d1b178632b8aa5c2bd73d9f49e514ff56a81cedfc"></VFTTradeButton>
+                                    <VFTTradeButton type={ACTION.BUY} tokenId={address}></VFTTradeButton>
+                                    <VFTTradeButton type={ACTION.SELL} tokenId={address}></VFTTradeButton>
                                 </ColumnFlexContainer>
                             </FlexContainerStart>
                         </FlexContainerStart>
@@ -74,7 +77,7 @@ export default function Vuilder(props: { twttag: string }) {
                 </Container>
                 <Container mleft={'25px'}>
                     <FloatRight>
-                        <TwitterFeed></TwitterFeed>
+                        <TwitterFeed twttag={props.twttag}></TwitterFeed>
                     </FloatRight>
                 </Container>
             </FlexContainer>
