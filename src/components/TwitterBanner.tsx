@@ -10,6 +10,7 @@ const StyledImage = styled.img`
     height: ${(p: BannerProps) => (p.height ? p.height : '75px')};
 `;
 
+//TODO: Query Twitter banner
 export default function ProfilePicture(props: { width?: string; height?: string; twttag: string }) {
     return (
         <>

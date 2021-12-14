@@ -6,6 +6,7 @@ const StyledTable = styled.table`
     width: 100%;
 `;
 
+//TODO: Connect with the database
 export default function TokenInfo() {
     return (
         <StyledTable>
