@@ -16,16 +16,15 @@ const Expand = styled.small`
     }
 `;
 
-export default function VuildersGrid() {
+//TODO: Add modal who expand the grid
+export default function VuildersGrid({ vuilders }: { vuilders: string[] }) {
+    const components = vuilders.map(vuilder => {
+        return <VuilderBlock twttag={vuilder}></VuilderBlock>;
+    });
+
     return (
         <>
-            <StyledGrid>
-                <VuilderBlock></VuilderBlock>
-                <VuilderBlock></VuilderBlock>
-                <VuilderBlock></VuilderBlock>
-                <VuilderBlock></VuilderBlock>
-                <VuilderBlock></VuilderBlock>
-            </StyledGrid>
+            <StyledGrid>{components}</StyledGrid>
             <Expand>View more</Expand>
         </>
     );
