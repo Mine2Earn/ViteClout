@@ -37,11 +37,6 @@ function App() {
             setUser(user.data.user);
             setIsLoggedIn(true);
             console.log(user);
-            const { status } = await axios.get(`${APIHOST}/auth/twitter/islinked`, { withCredentials: true });
-            if (status === 202) {
-                toggle();
-            }
-            console.log(status);
         } catch (error) {
             console.log(error);
         }
