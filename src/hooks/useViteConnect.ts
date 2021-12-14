@@ -1,6 +1,6 @@
 import { ViteAPI, accountBlock as accountBlockUtils } from '@vite/vitejs';
 import WS_RPC from '@vite/vitejs-ws';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { VCContext, VCConnector } from '../App';
 import { ABI, CONTRACT_ADDRESS } from '../config';
 
@@ -99,4 +99,25 @@ export function useVCTrade(VFTId: string) {
     };
 
     return [buy, sell];
+}
+
+export function useVCConnect() {
+    let [connected, setConnected] = useState(false);
+    const connector: VCConnector = useContext(VCContext);
+
+    connector.on('connect', (err, payload) => {
+        if (err) {
+            console.error(err);
+        }
+        setConnected(true);
+    });
+
+    connector.on('disconnect', err => {
+        if (err) {
+            console.error(err);
+        }
+        setConnected(false);
+    });
+
+    return connected;
 }

@@ -13,6 +13,8 @@ import { APIHOST } from '../config';
 import Table from '../components/Table';
 import { useModal } from '../hooks/useModal';
 import { toast } from 'react-hot-toast';
+import { useVCConnect } from '../hooks/useViteConnect';
+import { VCContext } from '../App';
 
 const FlexCtn = styled.div`
     display: flex;
@@ -112,7 +114,9 @@ const Text = styled.textarea`
 `;
 
 export default function Account() {
-    let userInfo = useContext(UserContext);
+    let userInfo: any = useContext(UserContext);
+    const connected = useVCConnect();
+    const connector = useContext(VCContext);
     const address = 'vite_8dbacfdd1d1b178632b8aa5c2bd73d9f49e514ff56a81cedfc';
 
     let header = ['Token id', 'Type', 'Price'];
@@ -233,17 +237,28 @@ export default function Account() {
                     <div>
                         <Container bgcolor={'#292F34'}>
                             <TokenBalance address={address}></TokenBalance>
-                            <Table head={header} body={body}></Table>
+                            <Table head={header} body={body}></Table> {/* Transaction's history*/}
                         </Container>
                     </div>
                 </FlexCtn>
             </>
         );
-    } else {
-        // TODO: Show account of user connected with ViteConnect
+    } else if (connected) {
         return (
             <>
-                <ConnectButton></ConnectButton>
+                <Navbar></Navbar>
+                <Title size={2}>Account : {connector.accounts[0]}</Title>
+                <Container bgcolor={'#292F34'}>
+                    <TokenBalance address={address}></TokenBalance>
+                    <Table head={header} body={body}></Table> {/* Transaction's history*/}
+                </Container>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <Navbar></Navbar>
+                <Title size={2}>You cannot access this page if you are not connected to ViteConnect or Twitter</Title>
             </>
         );
     }
