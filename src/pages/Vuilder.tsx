@@ -9,9 +9,7 @@ import { ACTION } from '../components/VFTButton';
 import VFTTradeButton from '../components/VFTTradeButton';
 import VuilderInfo from '../components/VuilderInfo';
 import TwitterFeed from '../components/TwitterFeed';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { APIHOST } from '../config';
+import { useVuilderAddress } from '../hooks/useVuilder';
 
 const FlexContainer = styled.div`
     display: flex;
@@ -36,18 +34,7 @@ const FloatRight = styled.div`
 
 //TODO: Add the twitter banner of the account
 export default function Vuilder(props: { twttag: string }) {
-    const [address, setAddress] = useState('');
-
-    useEffect(() => {
-        axios
-            .get(`${APIHOST}/vuilders/addressfromtag?twitter_tag=${props.twttag}`)
-            .then(res => {
-                if (res.status === 200 && res.data.message === 'Ok' && res.data.address) {
-                    setAddress(res.data.address);
-                }
-            })
-            .catch(console.error);
-    });
+    const address = useVuilderAddress(props.twttag);
 
     return (
         <>
@@ -65,8 +52,8 @@ export default function Vuilder(props: { twttag: string }) {
                                     <ProfileDescription twttag={props.twttag}></ProfileDescription>
                                 </ColumnFlexContainer>
                                 <ColumnFlexContainer>
-                                    <VFTTradeButton type={ACTION.BUY} tokenId={address}></VFTTradeButton>
-                                    <VFTTradeButton type={ACTION.SELL} tokenId={address}></VFTTradeButton>
+                                    <VFTTradeButton type={ACTION.BUY} tokenId={address || ''}></VFTTradeButton>
+                                    <VFTTradeButton type={ACTION.SELL} tokenId={address || ''}></VFTTradeButton>
                                 </ColumnFlexContainer>
                             </FlexContainerStart>
                         </FlexContainerStart>
