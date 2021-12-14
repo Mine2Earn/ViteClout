@@ -9,7 +9,9 @@ import Connector from '@vite/connector';
 import React from 'react';
 import { APIHOST } from './config';
 import Account from './pages/Account';
+import Explorer from './pages/Explorer';
 import { Toaster } from 'react-hot-toast';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 export type VCConnector = {
     connected: boolean;
@@ -54,9 +56,16 @@ function App() {
             <Toaster position="top-right" reverseOrder={false} />
             <VCContext.Provider value={connector}>
                 <UserContext.Provider value={{ isLoggedIn, user }}>
-                    {isShowing && <LinkWallet toggle={toggle} />}
                     <div className="App">
-                        <Account></Account>
+                        {isShowing && <LinkWallet toggle={toggle} />}
+                        <Router>
+                            <Routes>
+                                <Route path="/vuilder" element={<Vuilder twttag="ElonMusk" />} />
+                                <Route path="/account" element={<Account />} />
+                                <Route path="/explorer" element={<Explorer />} />
+                                <Route path="*" element={<Home />} />
+                            </Routes>
+                        </Router>
                     </div>
                 </UserContext.Provider>
             </VCContext.Provider>

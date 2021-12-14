@@ -12,7 +12,7 @@ import { UserContext } from '../context/UserContext';
 import { APIHOST } from '../config';
 import Table from '../components/Table';
 import { useModal } from '../hooks/useModal';
-import toaster, { toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 const FlexCtn = styled.div`
     display: flex;
