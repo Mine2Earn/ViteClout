@@ -22,7 +22,7 @@ export default function TokenBalance(props: { address: string }) {
 
     useEffect(() => {
         fetchBalances();
-    }, []);
+    }, [props.address]);
 
     return <Table body={body} head={thead}></Table>;
 }
