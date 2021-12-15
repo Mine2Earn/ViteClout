@@ -15,12 +15,12 @@ const StyledRow = styled.tr`
 `;
 
 export default function Table(props: { head: Array<string>; body: Array<Array<string>> }) {
-    const listHeader = props.head.map(title => <StyledTH>{title}</StyledTH>);
-    const bodyElem = props.body.map(row => {
+    const listHeader = props.head.map((title, index) => <StyledTH key={index}>{title}</StyledTH>);
+    const bodyElem = props.body.map((row, index) => {
         return (
-            <StyledRow>
-                {row.map(el => (
-                    <td>{el}</td>
+            <StyledRow key={index}>
+                {row.map((el, index2) => (
+                    <td key={index2}>{el}</td>
                 ))}
             </StyledRow>
         );

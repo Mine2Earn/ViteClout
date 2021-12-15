@@ -17,8 +17,8 @@ const Expand = styled.small`
 
 //TODO: Add modal who expand the grid
 export default function VuildersGrid({ vuilders }: { vuilders: string[] }) {
-    const components = vuilders.map(vuilder => {
-        return <VuilderBlock twttag={vuilder}></VuilderBlock>;
+    const components = vuilders.map((vuilder, index) => {
+        return <VuilderBlock key={index} twttag={vuilder}></VuilderBlock>;
     });
 
     return (

@@ -1,9 +1,7 @@
 import Navbar from '../components/Navbar';
 import Title from '../components/Title';
-import Description from '../components/Description';
 import Container from '../components/Container';
-import FeaturedVuilders from '../components/FeaturedVuilders';
-import SearchBar from '../components/SearchExplorer';
+import SearchBar from '../components/Search';
 import Table from '../components/Table';
 import styled from 'styled-components';
 import { wallet } from '@vite/vitejs';
@@ -25,7 +23,7 @@ const Subtitle = styled.h3`
 
 function Explorer() {
     let header = ['Token id', 'Fan address', 'Type', 'Price'];
-    let tokenH = ['Token id', 'Buy price', 'Number of Holders', 'Token sold'];
+    let tokenH = ['Token id', 'Buy price', 'Circulating Supply', 'Number of Transactions'];
 
     let [body, setBody] = useState<Array<Array<string>>>([]);
     let [tokenB, setTokenB] = useState<Array<Array<string>>>([]);
@@ -105,8 +103,8 @@ function Explorer() {
             const response = await axios.get(`${APIHOST}/transactions/getalltokeninfo?orderBy=${sort}`);
             const results = response.data.result;
 
-            const _tokenB = results.map((result: any) => {
-                return ['@' + result.twitter_tag, `${result.buyPrice} $VITE`, result.holders, result.numberSell];
+            const _tokenB = results.map(result => {
+                return ['@' + result.twitter_tag, `${result.buyPrice} $VITE`, result.circulating_supply, result.numberSell];
             });
 
             setTokenB(_tokenB);

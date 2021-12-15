@@ -1,4 +1,3 @@
-//@ts-ignore
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 
 export default function TwitterAllFeed() {

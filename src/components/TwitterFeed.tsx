@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-//@ts-ignore
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 
 export default function TwitterFeed({ twttag }: { twttag: string }) {
