@@ -259,7 +259,7 @@ export default function Account() {
                                     <StyledInput type="submit" value="Upload Photo" />
                                 </form>
                                 <StyledButton onClick={toggle}>Update Description</StyledButton>
-                                {!userInfo.has_mint && <VFTButton type={ACTION.MINT}>Mint my token</VFTButton>}
+                                {!userInfo.user.has_mint && <VFTButton type={ACTION.MINT}>Mint my token</VFTButton>}
                             </DownContainer>
                         </Container>
                     </LW>
