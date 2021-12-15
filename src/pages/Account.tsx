@@ -254,7 +254,7 @@ export default function Account() {
                 )}
                 <Navbar></Navbar>
                 <Title size={2}>
-                    {userInfo.user.displayName} @{userInfo.user.twitter_tag}
+                    {userInfo.user.twitter_name} - {userInfo.user.twitter_tag}
                 </Title>
                 <FlexCtn>
                     <LW>
