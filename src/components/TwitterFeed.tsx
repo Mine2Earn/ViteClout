@@ -1,7 +1,26 @@
+import { useEffect, useState } from 'react';
+//@ts-ignore
+import { TwitterTimelineEmbed } from 'react-twitter-embed';
+
 export default function TwitterFeed({ twttag }: { twttag: string }) {
-    return (
-        <a className="twitter-timeline" data-width="600" data-height="500" data-theme="dark" href={`https://twitter.com/${twttag}?ref_src=twsrc%5Etfw`}>
-            Tweets by ${twttag}
-        </a>
+    // Caution while touching this, highly toxic
+    /**
+     * TwitterFeed don't refresh if props change so we have to remove then remount the component
+     * TODO: Find a cleaner way
+     */
+    let [Feed, setFeed] = useState(
+        <TwitterTimelineEmbed options={{ width: '600', height: '800' }} theme="dark" sourceType="profile" screenName={twttag}></TwitterTimelineEmbed>
     );
+
+    useEffect(() => {
+        setTimeout(() => {
+            setFeed(<></>);
+            setTimeout(() => {
+                setFeed(<TwitterTimelineEmbed options={{ width: '600', height: '800' }} theme="dark" sourceType="profile" screenName={twttag}></TwitterTimelineEmbed>);
+            }, 1);
+        }, 1);
+    }, [twttag]);
+    // Caution while touching this, highly toxic
+
+    return Feed;
 }
