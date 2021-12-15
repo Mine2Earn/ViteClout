@@ -107,6 +107,25 @@ const Text = styled.textarea`
     resize: none;
 `;
 
+const UpContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+`;
+
+const DownContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    & form,
+    & button {
+        margin-bottom: 1rem;
+    }
+`;
+
 export default function Account() {
     let userInfo: any = useContext(UserContext);
     const connected = useVCConnect();
@@ -230,14 +249,18 @@ export default function Account() {
                 <FlexCtn>
                     <LW>
                         <Container bgcolor={'#292F34'}>
-                            <ProfilePicture twttag={`${userInfo.user.twitter_tag}`}></ProfilePicture>
-                            <ProfileDescription twttag={`${userInfo.user.twitter_tag}`}></ProfileDescription>
-                            <form onSubmit={uploadImage}>
-                                <input type="file" onChange={onChangeImage} />
-                                <StyledInput type="submit" value="Upload Photo" />
-                            </form>
-                            <StyledButton onClick={toggle}>Update Description</StyledButton>
-                            {!userInfo.has_mint && <VFTButton type={ACTION.MINT}>Mint my token</VFTButton>}
+                            <UpContainer>
+                                <ProfilePicture twttag={`${userInfo.user.twitter_tag}`}></ProfilePicture>
+                                <ProfileDescription twttag={`${userInfo.user.twitter_tag}`}></ProfileDescription>
+                            </UpContainer>
+                            <DownContainer>
+                                <form onSubmit={uploadImage}>
+                                    <input type="file" onChange={onChangeImage} />
+                                    <StyledInput type="submit" value="Upload Photo" />
+                                </form>
+                                <StyledButton onClick={toggle}>Update Description</StyledButton>
+                                {!userInfo.has_mint && <VFTButton type={ACTION.MINT}>Mint my token</VFTButton>}
+                            </DownContainer>
                         </Container>
                     </LW>
                     <div>
