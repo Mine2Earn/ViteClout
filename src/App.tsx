@@ -2,7 +2,6 @@ import Home from './pages/Home';
 import Vuilder from './pages/Vuilder';
 import { useState, useEffect } from 'react';
 import { UserContext, IUser } from './context/UserContext';
-import { useModal } from './hooks/useModal';
 import axios from 'axios';
 import Connector from '@vite/connector';
 import React from 'react';
@@ -10,7 +9,7 @@ import { APIHOST } from './config';
 import Account from './pages/Account';
 import Explorer from './pages/Explorer';
 import { Toaster } from 'react-hot-toast';
-import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 
 export type VCConnector = {
     connected: boolean;
@@ -28,7 +27,6 @@ export const VCContext = React.createContext<VCConnector>(connector);
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState<IUser>();
-    const [isShowing, toggle]: any[] = useModal();
 
     const fetchAPI = async () => {
         try {

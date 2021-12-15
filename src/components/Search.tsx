@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { wallet } from '@vite/vitejs';
 import styled from 'styled-components';
 import { APIHOST } from '../config';

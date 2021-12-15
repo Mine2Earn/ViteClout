@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 import { APIHOST } from '../config';

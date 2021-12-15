@@ -13,7 +13,7 @@ const StyledTitle2 = styled.h2`
 `;
 
 export default function Title(props: { children: any; size?: number; padding?: string }) {
-    if (props.size == 2) {
+    if (props.size === 2) {
         return <StyledTitle2 padding={props.padding}>{props.children}</StyledTitle2>;
     } else {
         return <StyledTitle padding={props.padding}>{props.children}</StyledTitle>;
