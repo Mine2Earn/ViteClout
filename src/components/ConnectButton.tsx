@@ -24,6 +24,8 @@ const StyledButton = styled.button`
     &:hover {
         cursor: pointer;
     }
+
+    margin-left: ${(p: { l?: boolean }) => (p.l ? 'auto' : 'none')};
 `;
 
 const Modal = styled.div`
@@ -144,7 +146,9 @@ export default function ConnectButton() {
                     </ModalBox>
                 </Modal>
             )}
-            <StyledButton onClick={toggle}>Connect</StyledButton>
+            <StyledButton onClick={toggle} l={true}>
+                Connect
+            </StyledButton>
         </>
     );
 }
