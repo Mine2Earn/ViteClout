@@ -2,7 +2,6 @@ import Home from './pages/Home';
 import Vuilder from './pages/Vuilder';
 import { useState, useEffect } from 'react';
 import { UserContext, IUser } from './context/UserContext';
-import LinkWallet from './components/LinkWallet';
 import { useModal } from './hooks/useModal';
 import axios from 'axios';
 import Connector from '@vite/connector';
@@ -61,7 +60,6 @@ function App() {
             <VCContext.Provider value={connector}>
                 <UserContext.Provider value={{ isLoggedIn, user }}>
                     <div className="App">
-                        {isShowing && <LinkWallet toggle={toggle} />}
                         <Router>
                             <Routes>
                                 <Route path="/vuilder/:tag" element={<Middle />} />
