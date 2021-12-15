@@ -12,6 +12,7 @@ https://viteclout.ekazuki.fr
 
 -   Verification of signature made by the vite_signMessage method of [ViteConnect](https://github.com/vitelabs/vite-connect-client) is not working properly
 -   the formula provided have an unexpected behavior when there is only 1 token in circulation: 0.003 \* (1-1)^2 = 0
+-   Sometimes on Account page the number of followers/following is to 0. This is a limitation of Twitter API (15 requests/15 minutes)
 
 ## Features
 

@@ -22,7 +22,11 @@ const FlexCtn = styled.div`
 `;
 
 const LW = styled.div`
-    width: 50%;
+    width: 40%;
+`;
+
+const RW = styled.div`
+    width: 60%;
 `;
 
 const StyledButton = styled.button`
@@ -98,6 +102,10 @@ const Clear = styled.div`
     padding: 20px;
 `;
 
+const ClearMargin = styled.div`
+    margin-top: 20px;
+`;
+
 const Text = styled.textarea`
     width: 400px;
     height: 200px;
@@ -109,16 +117,18 @@ const Text = styled.textarea`
 
 const UpContainer = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 1rem;
+    padding-top: 2rem;
 `;
 
 const DownContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
+    padding-bottom: 2rem;
 
     & form,
     & button {
@@ -137,6 +147,7 @@ export default function Account() {
     let [body, setBody] = useState<Array<Array<string>>>([]);
     const [file, setFile] = useState(null);
     const [isShowing, toggle]: any = useModal(false);
+    const [isVuilder, setIsVuilder] = useState(false);
     const descr = useRef(null);
 
     let getAddress = () => {
@@ -164,6 +175,10 @@ export default function Account() {
             .catch(err => {
                 console.error(err);
             });
+
+        axios.get(`${APIHOST}/vuilders/isvuilder?twitter_tag=${userInfo.user.twitter_id}`).then(res => {
+            setIsVuilder(res.data.isVuilder);
+        });
     };
 
     useEffect(() => {
@@ -244,7 +259,7 @@ export default function Account() {
                 )}
                 <Navbar></Navbar>
                 <Title size={2}>
-                    {userInfo.user.displayName} @{userInfo.user.twitter_tag}
+                    {userInfo.user.twitter_name} - {userInfo.user.twitter_tag}
                 </Title>
                 <FlexCtn>
                     <LW>
@@ -259,16 +274,20 @@ export default function Account() {
                                     <StyledInput type="submit" value="Upload Photo" />
                                 </form>
                                 <StyledButton onClick={toggle}>Update Description</StyledButton>
-                                {!userInfo.has_mint && <VFTButton type={ACTION.MINT}>Mint my token</VFTButton>}
+                                {!userInfo.user.has_mint && <VFTButton type={ACTION.MINT}>Mint my token</VFTButton>}
+                                {!!isVuilder && <p>You are not a certified vuilder but for the demo you can.</p>}
                             </DownContainer>
                         </Container>
                     </LW>
-                    <div>
+                    <RW>
                         <Container bgcolor={'#292F34'} overflow={true}>
                             <TokenBalance address={address}></TokenBalance>
+                        </Container>
+                        <ClearMargin />
+                        <Container bgcolor={'#292F34'} overflow={true}>
                             <Table head={header} body={body}></Table> {/* Transaction's history*/}
                         </Container>
-                    </div>
+                    </RW>
                 </FlexCtn>
             </>
         );
@@ -279,6 +298,9 @@ export default function Account() {
                 <Title size={2}>Account : {connector.accounts[0]}</Title>
                 <Container bgcolor={'#292F34'}>
                     <TokenBalance address={address}></TokenBalance>
+                </Container>
+                <ClearMargin />
+                <Container bgcolor={'#292F34'}>
                     <Table head={header} body={body}></Table> {/* Transaction's history*/}
                 </Container>
             </>

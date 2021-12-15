@@ -70,7 +70,7 @@ function Explorer() {
 
     let getAddressByTag = async (twttag: string): Promise<string | undefined> => {
         try {
-            const res = await axios.get(`${APIHOST}/vuilders/addressfromtag?twitter_tag=${twttag}`);
+            const res = await axios.get(`${APIHOST}/vuilders/addressfromtag?twitter_tag=${twttag.replace('@', '')}`);
             return res.data?.address;
         } catch (error) {
             console.error(error);
