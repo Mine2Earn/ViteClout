@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useVCMint, useVCSign, useVCTrade } from '../hooks/useViteConnect';
+import { toast } from 'react-hot-toast';
 
 export enum ACTION {
     BUY,
@@ -39,31 +40,54 @@ export default function VFTButton(props: StyledProps) {
     let onClick = () => {
         switch (props.type) {
             case ACTION.BUY:
+                const buyLoad = toast.loading('Accept transaction on your phone');
                 buy(props.price)
                     .then(res => {
                         console.log(res);
+                        toast.dismiss(buyLoad);
+                        toast.success('Successfully bought VFT');
                     })
                     .catch(err => {
                         console.error(err);
+                        toast.dismiss(buyLoad);
+                        toast.error('Failed to buy VFT, are you connected?');
                     });
                 break;
             case ACTION.SELL:
+                const sealLoad = toast.loading('Accept transaction on your phone');
                 sell(props.price)
                     .then(res => {
                         console.log(res);
+                        toast.dismiss(sealLoad);
+                        toast.success('Successfully sold VFT');
                     })
                     .catch(err => {
                         console.error(err);
+                        toast.dismiss(sealLoad);
+                        toast.error('Failed to sell VFT, are you connected?');
                     });
                 break;
             case ACTION.MINT:
-                mint().then(res => {
-                    console.log(res);
-                });
+                const mintLoad = toast.loading('Accept transaction on your phone');
+                mint()
+                    .then(res => {
+                        console.log(res);
+                        toast.dismiss(mintLoad);
+                        toast.success('Successfully minted VFT');
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        toast.dismiss(mintLoad);
+                        toast.error('Failed to mint VFT, are you connected?');
+                    });
                 break;
             case ACTION.SIGN:
+                toast('Accept on your phone, it might take few seconds', {
+                    icon: '⚙️'
+                });
                 sign('Hello').then(res => {
                     console.log(res);
+                    toast.success('Successfully signed');
                 });
                 break;
         }

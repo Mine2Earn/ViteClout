@@ -14,6 +14,7 @@ import { useModal } from '../hooks/useModal';
 import { toast } from 'react-hot-toast';
 import { useVCConnect } from '../hooks/useViteConnect';
 import { VCContext } from '../App';
+import VFTButton, { ACTION } from '../components/VFTButton';
 
 const FlexCtn = styled.div`
     display: flex;
@@ -21,7 +22,11 @@ const FlexCtn = styled.div`
 `;
 
 const LW = styled.div`
-    width: 50%;
+    width: 40%;
+`;
+
+const RW = styled.div`
+    width: 60%;
 `;
 
 const StyledButton = styled.button`
@@ -97,6 +102,10 @@ const Clear = styled.div`
     padding: 20px;
 `;
 
+const ClearMargin = styled.div`
+    margin-top: 20px;
+`;
+
 const Text = styled.textarea`
     width: 400px;
     height: 200px;
@@ -104,6 +113,27 @@ const Text = styled.textarea`
     padding: 1rem;
     border-radius: 6px;
     resize: none;
+`;
+
+const UpContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-top: 2rem;
+`;
+
+const DownContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-bottom: 2rem;
+
+    & form,
+    & button {
+        margin-bottom: 1rem;
+    }
 `;
 
 export default function Account() {
@@ -117,6 +147,7 @@ export default function Account() {
     let [body, setBody] = useState<Array<Array<string>>>([]);
     const [file, setFile] = useState(null);
     const [isShowing, toggle]: any = useModal(false);
+    const [isVuilder, setIsVuilder] = useState(false);
     const descr = useRef(null);
 
     let getAddress = () => {
@@ -134,7 +165,7 @@ export default function Account() {
                 if (res.data.result) {
                     const results = res.data.result;
 
-                    const __body = results.map(result => {
+                    const __body = results.map((result: any) => {
                         return ['@' + result.twitter_tag, result.type ? 'BUY' : 'SELL', `${result.amount}@${result.price / Math.pow(10, 18)} $VITE`];
                     });
 
@@ -144,6 +175,10 @@ export default function Account() {
             .catch(err => {
                 console.error(err);
             });
+
+        axios.get(`${APIHOST}/vuilders/isvuilder?twitter_tag=${userInfo.user.twitter_id}`).then(res => {
+            setIsVuilder(res.data.isVuilder);
+        });
     };
 
     useEffect(() => {
@@ -155,11 +190,11 @@ export default function Account() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userInfo.isLoggedIn, connected]);
 
-    const onChangeImage = e => {
+    const onChangeImage = (e: any) => {
         setFile(e.target.files[0]);
     };
 
-    const uploadImage = e => {
+    const uploadImage = (e: any) => {
         e.preventDefault();
         if (file) {
             let body = new FormData();
@@ -224,27 +259,35 @@ export default function Account() {
                 )}
                 <Navbar></Navbar>
                 <Title size={2}>
-                    {userInfo.user.displayName} @{userInfo.user.twitter_tag}
+                    {userInfo.user.twitter_name} - {userInfo.user.twitter_tag}
                 </Title>
                 <FlexCtn>
                     <LW>
                         <Container bgcolor={'#292F34'}>
-                            <p>Type: Vuilder</p>
-                            <ProfilePicture twttag={`@${userInfo.user.twitter_tag}`}></ProfilePicture>
-                            <ProfileDescription twttag={`@${userInfo.user.twitter_tag}`}></ProfileDescription>
-                            <form onSubmit={uploadImage}>
-                                <input type="file" onChange={onChangeImage} />
-                                <StyledInput type="submit" value="Upload Photo" />
-                            </form>
-                            <StyledButton onClick={toggle}>Update Description</StyledButton>
+                            <UpContainer>
+                                <ProfilePicture twttag={`${userInfo.user.twitter_tag}`}></ProfilePicture>
+                                <ProfileDescription twttag={`${userInfo.user.twitter_tag}`}></ProfileDescription>
+                            </UpContainer>
+                            <DownContainer>
+                                <form onSubmit={uploadImage}>
+                                    <input type="file" onChange={onChangeImage} />
+                                    <StyledInput type="submit" value="Upload Photo" />
+                                </form>
+                                <StyledButton onClick={toggle}>Update Description</StyledButton>
+                                {!userInfo.user.has_mint && <VFTButton type={ACTION.MINT}>Mint my token</VFTButton>}
+                                {!!isVuilder && <p>You are not a certified vuilder but for the demo you can.</p>}
+                            </DownContainer>
                         </Container>
                     </LW>
-                    <div>
-                        <Container bgcolor={'#292F34'}>
+                    <RW>
+                        <Container bgcolor={'#292F34'} overflow={true}>
                             <TokenBalance address={address}></TokenBalance>
+                        </Container>
+                        <ClearMargin />
+                        <Container bgcolor={'#292F34'} overflow={true}>
                             <Table head={header} body={body}></Table> {/* Transaction's history*/}
                         </Container>
-                    </div>
+                    </RW>
                 </FlexCtn>
             </>
         );
@@ -255,6 +298,9 @@ export default function Account() {
                 <Title size={2}>Account : {connector.accounts[0]}</Title>
                 <Container bgcolor={'#292F34'}>
                     <TokenBalance address={address}></TokenBalance>
+                </Container>
+                <ClearMargin />
+                <Container bgcolor={'#292F34'}>
                     <Table head={header} body={body}></Table> {/* Transaction's history*/}
                 </Container>
             </>

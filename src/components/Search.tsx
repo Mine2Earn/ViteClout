@@ -27,7 +27,7 @@ export default function SearchBar(props: { onSearch: Function }) {
                         toast.error('No vuilder found');
                     });
             } else {
-                navigate(`/vuilder/${input}`);
+                navigate(`/vuilder/${input.replace('@', '')}`);
             }
         }
     };
