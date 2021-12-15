@@ -1,6 +1,6 @@
 import { ViteAPI, accountBlock as accountBlockUtils } from '@vite/vitejs';
 import WS_RPC from '@vite/vitejs-ws';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { VCContext, VCConnector } from '../App';
 import { ABI, CONTRACT_ADDRESS } from '../config';
 
@@ -118,6 +118,9 @@ export function useVCConnect() {
         }
         setConnected(false);
     });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => (connector.connected ? setConnected(true) : setConnected(false)), []);
 
     return connected;
 }
