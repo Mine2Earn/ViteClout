@@ -8,6 +8,7 @@ type DivProps = {
     children?: any;
     padding?: string;
     bshadow?: string;
+    overflow?: boolean;
 };
 
 const StyledDiv = styled.div`
@@ -17,6 +18,7 @@ const StyledDiv = styled.div`
     ${(p: DivProps) => (p.bgcolor ? 'background-color: ' + p.bgcolor : '')};
     ${(p: DivProps) => (p.padding ? 'padding: ' + p.padding : '')};
     ${(p: DivProps) => (p.mtop ? 'margin-top: ' + p.mtop : '')};
+    ${(p: DivProps) => (p.overflow ? 'overflow: auto' : '')};
 
     border-radius: 8px;
 
@@ -25,7 +27,15 @@ const StyledDiv = styled.div`
 
 export default function Title(props: DivProps) {
     return (
-        <StyledDiv bshadow={props.bshadow} mtop={props.mtop} mleft={props.mleft} mright={props.mright} bgcolor={props.bgcolor} padding={props.padding}>
+        <StyledDiv
+            bshadow={props.bshadow}
+            mtop={props.mtop}
+            mleft={props.mleft}
+            mright={props.mright}
+            bgcolor={props.bgcolor}
+            padding={props.padding}
+            overflow={props.overflow}
+        >
             {props.children}
         </StyledDiv>
     );
