@@ -7,7 +7,6 @@ const Desc = styled.div`
     margin: 10px 20px;
 `;
 
-//TODO: Connect to profile picture endpoint
 export default function ProfileDescription(props: { twttag: string; size?: string }) {
     const [bio, setBio] = useState('LE NULLOS IS A PAS DE BIO');
 

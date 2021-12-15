@@ -11,7 +11,7 @@ const StyledNavbar = styled.nav`
     justify-content: center;
     align-items: center;
 
-    .left  {
+    .left {
         margin-left: auto;
     }
 
@@ -32,6 +32,10 @@ const StyledP = styled.p`
     color: #00a7ff;
 `;
 
+/**
+ * Website navbar
+ * @returns
+ */
 export default function Navbar() {
     return (
         <>

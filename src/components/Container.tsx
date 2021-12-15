@@ -23,7 +23,7 @@ const StyledDiv = styled.div`
     box-shadow: ${(p: DivProps) => (p.bshadow ? p.bshadow : 'none')};
 `;
 
-export default function Title(props: DivProps) {
+export default function Container(props: DivProps) {
     return (
         <StyledDiv bshadow={props.bshadow} mtop={props.mtop} mleft={props.mleft} mright={props.mright} bgcolor={props.bgcolor} padding={props.padding}>
             {props.children}

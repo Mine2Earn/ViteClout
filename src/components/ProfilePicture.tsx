@@ -8,7 +8,6 @@ const StyledImage = styled.img`
     height: ${(p: { size?: string }) => (p.size ? p.size : '150px')};
 `;
 
-//TODO: Connect to profile picture endpoint
 export default function ProfilePicture(props: { twttag: string; size?: string }) {
     const [imgSrc, setImgSrc] = useState('https://via.placeholder.com/150');
 
