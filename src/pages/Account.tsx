@@ -14,6 +14,7 @@ import { useModal } from '../hooks/useModal';
 import { toast } from 'react-hot-toast';
 import { useVCConnect } from '../hooks/useViteConnect';
 import { VCContext } from '../App';
+import VFTButton, { ACTION } from '../components/VFTButton';
 
 const FlexCtn = styled.div`
     display: flex;
@@ -106,6 +107,25 @@ const Text = styled.textarea`
     resize: none;
 `;
 
+const UpContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+`;
+
+const DownContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    & form,
+    & button {
+        margin-bottom: 1rem;
+    }
+`;
+
 export default function Account() {
     let userInfo: any = useContext(UserContext);
     const connected = useVCConnect();
@@ -134,7 +154,7 @@ export default function Account() {
                 if (res.data.result) {
                     const results = res.data.result;
 
-                    const __body = results.map(result => {
+                    const __body = results.map((result: any) => {
                         return ['@' + result.twitter_tag, result.type ? 'BUY' : 'SELL', `${result.amount}@${result.price / Math.pow(10, 18)} $VITE`];
                     });
 
@@ -155,11 +175,11 @@ export default function Account() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userInfo.isLoggedIn, connected]);
 
-    const onChangeImage = e => {
+    const onChangeImage = (e: any) => {
         setFile(e.target.files[0]);
     };
 
-    const uploadImage = e => {
+    const uploadImage = (e: any) => {
         e.preventDefault();
         if (file) {
             let body = new FormData();
@@ -229,18 +249,22 @@ export default function Account() {
                 <FlexCtn>
                     <LW>
                         <Container bgcolor={'#292F34'}>
-                            <p>Type: Vuilder</p>
-                            <ProfilePicture twttag={`@${userInfo.user.twitter_tag}`}></ProfilePicture>
-                            <ProfileDescription twttag={`@${userInfo.user.twitter_tag}`}></ProfileDescription>
-                            <form onSubmit={uploadImage}>
-                                <input type="file" onChange={onChangeImage} />
-                                <StyledInput type="submit" value="Upload Photo" />
-                            </form>
-                            <StyledButton onClick={toggle}>Update Description</StyledButton>
+                            <UpContainer>
+                                <ProfilePicture twttag={`${userInfo.user.twitter_tag}`}></ProfilePicture>
+                                <ProfileDescription twttag={`${userInfo.user.twitter_tag}`}></ProfileDescription>
+                            </UpContainer>
+                            <DownContainer>
+                                <form onSubmit={uploadImage}>
+                                    <input type="file" onChange={onChangeImage} />
+                                    <StyledInput type="submit" value="Upload Photo" />
+                                </form>
+                                <StyledButton onClick={toggle}>Update Description</StyledButton>
+                                {!userInfo.has_mint && <VFTButton type={ACTION.MINT}>Mint my token</VFTButton>}
+                            </DownContainer>
                         </Container>
                     </LW>
                     <div>
-                        <Container bgcolor={'#292F34'}>
+                        <Container bgcolor={'#292F34'} overflow={true}>
                             <TokenBalance address={address}></TokenBalance>
                             <Table head={header} body={body}></Table> {/* Transaction's history*/}
                         </Container>

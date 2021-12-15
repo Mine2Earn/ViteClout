@@ -3,13 +3,14 @@ import Title from '../components/Title';
 import Description from '../components/Description';
 import Container from '../components/Container';
 import FeaturedVuilders from '../components/FeaturedVuilders';
-import SearchBar from '../components/Search';
+import SearchBar from '../components/SearchExplorer';
 import Table from '../components/Table';
 import styled from 'styled-components';
 import { wallet } from '@vite/vitejs';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { APIHOST } from '../config';
+import { toast } from 'react-hot-toast';
 
 const FlexDiv = styled.div`
     display: flex;
@@ -36,7 +37,7 @@ function Explorer() {
                 if (res.data.result) {
                     const results = res.data.result;
 
-                    const __body = results.map(result => {
+                    const __body = results.map((result: any) => {
                         return ['@' + result.twitter_tag, result.holder, result.type ? 'BUY' : 'SELL', `${result.amount}@${result.price / Math.pow(10, 18)} $VITE`];
                     });
 
@@ -48,14 +49,14 @@ function Explorer() {
             });
     };
 
-    let getTransactionByHolder = address => {
+    let getTransactionByHolder = (address: any) => {
         axios
             .get(`${APIHOST}/transactions/all?holder=${address}`)
             .then(res => {
                 if (res.data.result) {
                     const results = res.data.result;
 
-                    const __body = results.map(result => {
+                    const __body = results.map((result: any) => {
                         return ['@' + result.twitter_tag, address, result.type ? 'BUY' : 'SELL', `${result.amount}@${result.price / Math.pow(10, 18)} $VITE`];
                     });
 
@@ -89,7 +90,7 @@ function Explorer() {
             const response = await axios.get(`${APIHOST}/transactions/getfromtokenid?token_id=${address}`);
             const results = response.data.result;
 
-            const _body = results.map(result => {
+            const _body = results.map((result: any) => {
                 return ['@' + result.twitter_tag, result.holder, result.type ? 'BUY' : 'SELL', `${result.amount}@${result.price / Math.pow(10, 18)} $VITE`];
             });
 
@@ -104,7 +105,7 @@ function Explorer() {
             const response = await axios.get(`${APIHOST}/transactions/getalltokeninfo?orderBy=${sort}`);
             const results = response.data.result;
 
-            const _tokenB = results.map(result => {
+            const _tokenB = results.map((result: any) => {
                 return ['@' + result.twitter_tag, `${result.buyPrice} $VITE`, result.holders, result.numberSell];
             });
 
@@ -120,13 +121,15 @@ function Explorer() {
     }, []);
 
     const onSearch = query => {
+        if (!query) return toast.error('You must enter an address or a vuilder name.');
         if (wallet.isValidAddress(query)) {
             getTransactionByHolder(query);
         } else {
             getTransactionByTag(query);
         }
     };
-    const onChange = e => {
+    const onChange = (e: any) => {
+        console.log(e.target.value);
         let sort = e.target.value;
         getTokensInfo(sort);
     };
