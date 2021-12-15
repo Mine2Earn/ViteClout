@@ -22,7 +22,11 @@ const FlexCtn = styled.div`
 `;
 
 const LW = styled.div`
-    width: 50%;
+    width: 40%;
+`;
+
+const RW = styled.div`
+    width: 60%;
 `;
 
 const StyledButton = styled.button`
@@ -113,16 +117,18 @@ const Text = styled.textarea`
 
 const UpContainer = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 1rem;
+    padding-top: 2rem;
 `;
 
 const DownContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
+    padding-bottom: 2rem;
 
     & form,
     & button {
@@ -267,12 +273,15 @@ export default function Account() {
                             </DownContainer>
                         </Container>
                     </LW>
-                    <div>
+                    <RW>
                         <Container bgcolor={'#292F34'} overflow={true}>
                             <TokenBalance address={address}></TokenBalance>
+                        </Container>
+                        <ClearMargin />
+                        <Container bgcolor={'#292F34'} overflow={true}>
                             <Table head={header} body={body}></Table> {/* Transaction's history*/}
                         </Container>
-                    </div>
+                    </RW>
                 </FlexCtn>
             </>
         );
