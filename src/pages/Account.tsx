@@ -147,6 +147,7 @@ export default function Account() {
     let [body, setBody] = useState<Array<Array<string>>>([]);
     const [file, setFile] = useState(null);
     const [isShowing, toggle]: any = useModal(false);
+    const [isVuilder, setIsVuilder] = useState(false);
     const descr = useRef(null);
 
     let getAddress = () => {
@@ -174,6 +175,10 @@ export default function Account() {
             .catch(err => {
                 console.error(err);
             });
+
+        axios.get(`${APIHOST}/vuilders/isvuilder?twitter_tag=${userInfo.user.twitter_id}`).then(res => {
+            setIsVuilder(res.data.isVuilder);
+        });
     };
 
     useEffect(() => {
@@ -270,6 +275,7 @@ export default function Account() {
                                 </form>
                                 <StyledButton onClick={toggle}>Update Description</StyledButton>
                                 {!userInfo.user.has_mint && <VFTButton type={ACTION.MINT}>Mint my token</VFTButton>}
+                                {!!isVuilder && <p>You are not a certified vuilder but for the demo you can.</p>}
                             </DownContainer>
                         </Container>
                     </LW>
