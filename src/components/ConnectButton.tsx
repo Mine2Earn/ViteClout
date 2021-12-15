@@ -4,6 +4,11 @@ import { APIHOST } from '../config';
 import styled from 'styled-components';
 import { useModal } from '../hooks/useModal';
 import VCQRCode from '../components/VCQRCode';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { useVCConnect } from '../hooks/useViteConnect';
+import { VCContext } from '../App';
+import toast from 'react-hot-toast';
 
 const StyledButton = styled.button`
     padding: 1em;
@@ -34,14 +39,15 @@ const Modal = styled.div`
 
 const ModalBox = styled.div`
     background-color: #04111d;
-    width: 500px;
+    min-width: 500px;
     height: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 10px;
     border: 1px solid white;
-    padding: 2rem 0;
+    padding: 2rem;
+    overflow-wrap: break-word;
 `;
 
 const CloseButton = styled.button`
@@ -61,20 +67,58 @@ const CloseButton = styled.button`
     }
 `;
 
-const Clear = styled.div`
-    padding: 20px;
-`;
-
 export default function ConnectButton() {
     const [isShowing, toggle]: any = useModal();
     const { isLoggedIn } = useContext(UserContext);
+    const [isLinked, setIsLinked] = useState(true);
+    const connected = useVCConnect();
+    const connector = useContext(VCContext);
+
+    const fetchApi = async () => {
+        try {
+            const { status } = await axios.get(`${APIHOST}/auth/twitter/islinked`, { withCredentials: true });
+            console.log(status);
+            if (status === 202) {
+                setIsLinked(false);
+                toggle();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const linkWallet = () => {
+        if (connected) {
+            axios
+                .post(
+                    `${APIHOST}/auth/link`,
+                    {
+                        address: connector.accounts[0]
+                    },
+                    { withCredentials: true }
+                )
+                .then(() => {
+                    toast.success('Successfully linked wallet');
+                    setIsLinked(true);
+                })
+                .catch(() => {
+                    toast.error('Failed to link wallet');
+                });
+        } else {
+            toast.error('You must connect with vite connect first');
+        }
+    };
+
+    useEffect(() => {
+        fetchApi();
+    }, []);
 
     return (
         <>
             {isShowing && (
                 <Modal>
                     <ModalBox>
-                        <CloseButton onClick={toggle}>Close</CloseButton>
+                        {isLinked && <CloseButton onClick={toggle}>Close</CloseButton>}
                         {!isLoggedIn ? (
                             <StyledButton
                                 onClick={() => {
@@ -92,8 +136,11 @@ export default function ConnectButton() {
                                 Logout
                             </StyledButton>
                         )}
-                        <p>Connect with Vite Connect</p>
+                        {!connected && <p>Connect with Vite Connect</p>}
+                        {connected && <p>You connected with address:</p>}
+                        {connected && <p>{connector.accounts[0]}</p>}
                         <VCQRCode />
+                        {!isLinked && <StyledButton onClick={linkWallet}>Link Wallet</StyledButton>}
                     </ModalBox>
                 </Modal>
             )}

@@ -11,7 +11,7 @@ import { APIHOST } from './config';
 import Account from './pages/Account';
 import Explorer from './pages/Explorer';
 import { Toaster } from 'react-hot-toast';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
 
 export type VCConnector = {
     connected: boolean;
@@ -37,11 +37,6 @@ function App() {
             setUser(user.data.user);
             setIsLoggedIn(true);
             console.log(user);
-            const { status } = await axios.get(`${APIHOST}/auth/twitter/islinked`, { withCredentials: true });
-            if (status === 202) {
-                toggle();
-            }
-            console.log(status);
         } catch (error) {
             console.log(error);
         }
@@ -50,6 +45,15 @@ function App() {
     useEffect(() => {
         fetchAPI();
     }, []);
+
+    const Middle = () => {
+        const { tag } = useParams();
+        if (tag) {
+            return <Vuilder twttag={tag} />;
+        } else {
+            return <Vuilder twttag="ElonMusk" />;
+        }
+    };
 
     return (
         <>
@@ -60,7 +64,7 @@ function App() {
                         {isShowing && <LinkWallet toggle={toggle} />}
                         <Router>
                             <Routes>
-                                <Route path="/vuilder" element={<Vuilder twttag="ElonMusk" />} />
+                                <Route path="/vuilder/:tag" element={<Middle />} />
                                 <Route path="/account" element={<Account />} />
                                 <Route path="/explorer" element={<Explorer />} />
                                 <Route path="*" element={<Home />} />
