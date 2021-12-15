@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useContext, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import ConnectButton from '../components/ConnectButton';
 import Container from '../components/Container';
 import Navbar from '../components/Navbar';
 import ProfileDescription from '../components/ProfileDescription';
@@ -23,12 +22,6 @@ const FlexCtn = styled.div`
 
 const LW = styled.div`
     width: 50%;
-`;
-
-const RW = styled.div`
-    width: 40%;
-    display: flex;
-    justify-content: center;
 `;
 
 const StyledButton = styled.button`
@@ -117,7 +110,8 @@ export default function Account() {
     let userInfo: any = useContext(UserContext);
     const connected = useVCConnect();
     const connector = useContext(VCContext);
-    const address = 'vite_8dbacfdd1d1b178632b8aa5c2bd73d9f49e514ff56a81cedfc';
+
+    const [address, setAddress] = useState('vite_8dbacfdd1d1b178632b8aa5c2bd73d9f49e514ff56a81cedfc');
 
     let header = ['Token id', 'Type', 'Price'];
     let [body, setBody] = useState<Array<Array<string>>>([]);
@@ -125,7 +119,13 @@ export default function Account() {
     const [isShowing, toggle]: any = useModal(false);
     const descr = useRef(null);
 
-    console.log(userInfo);
+    let getAddress = () => {
+        if (userInfo.isLoggedIn && userInfo.user) {
+            return userInfo.user.address;
+        } else if (connected) {
+            return connector.accounts[0];
+        }
+    };
 
     let getTransactionByHolder = address => {
         axios
@@ -147,8 +147,13 @@ export default function Account() {
     };
 
     useEffect(() => {
-        getTransactionByHolder(address);
-    }, []);
+        const _address = getAddress();
+        setAddress(_address);
+        if (userInfo.isLoggedIn || connected) {
+            getTransactionByHolder(_address);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userInfo.isLoggedIn, connected]);
 
     const onChangeImage = e => {
         setFile(e.target.files[0]);

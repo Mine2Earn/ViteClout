@@ -15,6 +15,7 @@ const FlexContainer = styled.div`
     justify-self: flex-start;
 `;
 
+//TODO: Query twitter information
 export default function VuilderBlock() {
     return (
         <FlexContainer>

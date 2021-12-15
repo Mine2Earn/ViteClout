@@ -2,9 +2,8 @@ import styled from 'styled-components';
 import VuilderBlock from './VuilderBlock';
 
 const StyledGrid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    display: flex;
+    justify-content: center;
 `;
 
 const Expand = styled.small`
@@ -16,16 +15,15 @@ const Expand = styled.small`
     }
 `;
 
-export default function VuildersGrid() {
+//TODO: Add modal who expand the grid
+export default function VuildersGrid({ vuilders }: { vuilders: string[] }) {
+    const components = vuilders.map(vuilder => {
+        return <VuilderBlock twttag={vuilder}></VuilderBlock>;
+    });
+
     return (
         <>
-            <StyledGrid>
-                <VuilderBlock></VuilderBlock>
-                <VuilderBlock></VuilderBlock>
-                <VuilderBlock></VuilderBlock>
-                <VuilderBlock></VuilderBlock>
-                <VuilderBlock></VuilderBlock>
-            </StyledGrid>
+            <StyledGrid>{components}</StyledGrid>
             <Expand>View more</Expand>
         </>
     );
