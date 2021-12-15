@@ -45,12 +45,27 @@ const BadgeSize = styled.img`
 export default function Vuilder(props: { twttag: string }) {
     const address = useVuilderAddress(props.twttag);
     const [isVuilder, setIsVuilder] = useState(false);
+    const [isRealVuilder, setIsRealVuilder] = useState(true);
 
     useEffect(() => {
-        axios.get(`${APIHOST}/vuilders/isvuilder?twitter_tag=${props.twttag}`).then(res => {
-            setIsVuilder(res.data.isVuilder);
-        });
+        axios
+            .get(`${APIHOST}/vuilders/isvuilder?twitter_tag=${props.twttag}`)
+            .then(res => {
+                setIsVuilder(res.data.isVuilder);
+            })
+            .catch(_ => {
+                setIsRealVuilder(false);
+            });
     }, []);
+
+    if (!isRealVuilder) {
+        return (
+            <>
+                <Navbar />
+                <Title size={2}>This Vuilder doesnt exist</Title>
+            </>
+        );
+    }
 
     return (
         <>
