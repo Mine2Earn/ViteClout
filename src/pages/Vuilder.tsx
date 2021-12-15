@@ -43,18 +43,18 @@ const BadgeSize = styled.img`
 
 //TODO: Add the twitter banner of the account
 export default function Vuilder(props: { twttag: string }) {
-    const address = useVuilderAddress(props.twttag);
+    const address = useVuilderAddress(props.twttag.replace('@', ''));
     const [isVuilder, setIsVuilder] = useState(false);
     const [isRealVuilder, setIsRealVuilder] = useState(true);
     const [vuilderInfo, setVuilderInfo] = useState({ twitter_name: 'loading' });
 
     useEffect(() => {
-        axios.get(`${APIHOST}/vuilders/isvuilder?twitter_tag=${props.twttag}`).then(res => {
+        axios.get(`${APIHOST}/vuilders/isvuilder?twitter_tag=${props.twttag.replace('@', '')}`).then(res => {
             setIsVuilder(res.data.isVuilder);
         });
 
         axios
-            .get(`${APIHOST}/vuilders/infofromtwt?twitter_tag=["${props.twttag}"]`)
+            .get(`${APIHOST}/vuilders/infofromtwt?twitter_tag=["${props.twttag.replace('@', '')}"]`)
             .then(res => {
                 console.log('VUILDER INFO', res.data);
                 setVuilderInfo(res.data.vuilders[0]);
@@ -86,7 +86,7 @@ export default function Vuilder(props: { twttag: string }) {
         <>
             <Navbar></Navbar>
             <Title size={2}>
-                {vuilderInfo.twitter_name} - {props.twttag}
+                {vuilderInfo.twitter_name} - {props.twttag.replace('@', '')}
                 {!!isVuilder && <BadgeSize src={badge} />}
             </Title>
 
@@ -94,11 +94,11 @@ export default function Vuilder(props: { twttag: string }) {
                 <Container mright={'none'} mleft={'none'}>
                     <Container padding={'10px'} bgcolor={'#292F34'} mright={'none'}>
                         <FlexContainerStart>
-                            <ProfilePicture twttag={props.twttag} size={'150px'}></ProfilePicture>
+                            <ProfilePicture twttag={props.twttag.replace('@', '')} size={'150px'}></ProfilePicture>
                             <FlexContainerStart>
                                 <ColumnFlexContainer>
-                                    <VuilderInfo twttag={props.twttag} address={address}></VuilderInfo>
-                                    <ProfileDescription twttag={props.twttag}></ProfileDescription>
+                                    <VuilderInfo twttag={props.twttag.replace('@', '')} address={address}></VuilderInfo>
+                                    <ProfileDescription twttag={props.twttag.replace('@', '')}></ProfileDescription>
                                 </ColumnFlexContainer>
                                 <ColumnFlexContainer>
                                     <VFTTradeButton type={ACTION.BUY} tokenId={address || ''}></VFTTradeButton>
@@ -113,7 +113,7 @@ export default function Vuilder(props: { twttag: string }) {
                 </Container>
                 <Container mleft={'25px'}>
                     <FloatRight>
-                        <TwitterFeed twttag={props.twttag}></TwitterFeed>
+                        <TwitterFeed twttag={props.twttag.replace('@', '')}></TwitterFeed>
                     </FloatRight>
                 </Container>
             </FlexContainer>
