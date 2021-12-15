@@ -1,7 +1,7 @@
 import Navbar from '../components/Navbar';
 import Title from '../components/Title';
 import Container from '../components/Container';
-import SearchBar from '../components/Search';
+import SearchBar from '../components/SearchExplorer';
 import Table from '../components/Table';
 import styled from 'styled-components';
 import { wallet } from '@vite/vitejs';
