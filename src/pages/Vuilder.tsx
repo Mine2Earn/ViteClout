@@ -46,14 +46,21 @@ export default function Vuilder(props: { twttag: string }) {
     const address = useVuilderAddress(props.twttag);
     const [isVuilder, setIsVuilder] = useState(false);
     const [isRealVuilder, setIsRealVuilder] = useState(true);
+    const [vuilderInfo, setVuilderInfo] = useState({ twitter_name: 'loading' });
 
     useEffect(() => {
+        axios.get(`${APIHOST}/vuilders/isvuilder?twitter_tag=${props.twttag}`).then(res => {
+            setIsVuilder(res.data.isVuilder);
+        });
+
         axios
-            .get(`${APIHOST}/vuilders/isvuilder?twitter_tag=${props.twttag}`)
+            .get(`${APIHOST}/vuilders/infofromtwt?twitter_tag=["${props.twttag}"]`)
             .then(res => {
-                setIsVuilder(res.data.isVuilder);
+                console.log('VUILDER INFO', res.data);
+                setVuilderInfo(res.data.vuilders[0]);
             })
-            .catch(_ => {
+            .catch(err => {
+                console.log(err);
                 setIsRealVuilder(false);
             });
     }, []);
@@ -67,11 +74,19 @@ export default function Vuilder(props: { twttag: string }) {
         );
     }
 
+    if (!vuilderInfo)
+        return (
+            <>
+                <Navbar />
+                <Title size={2}>Loading...</Title>
+            </>
+        );
+
     return (
         <>
             <Navbar></Navbar>
             <Title size={2}>
-                Elon Musk - {props.twttag}
+                {vuilderInfo.twitter_name} - {props.twttag}
                 {!!isVuilder && <BadgeSize src={badge} />}
             </Title>
 
