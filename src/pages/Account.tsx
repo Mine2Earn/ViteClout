@@ -98,6 +98,10 @@ const Clear = styled.div`
     padding: 20px;
 `;
 
+const ClearMargin = styled.div`
+    margin-top: 20px;
+`;
+
 const Text = styled.textarea`
     width: 400px;
     height: 200px;
@@ -279,6 +283,9 @@ export default function Account() {
                 <Title size={2}>Account : {connector.accounts[0]}</Title>
                 <Container bgcolor={'#292F34'}>
                     <TokenBalance address={address}></TokenBalance>
+                </Container>
+                <ClearMargin />
+                <Container bgcolor={'#292F34'}>
                     <Table head={header} body={body}></Table> {/* Transaction's history*/}
                 </Container>
             </>
