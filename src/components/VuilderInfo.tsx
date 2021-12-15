@@ -1,4 +1,8 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { APIHOST } from '../config';
+import { useContractReserve } from '../hooks/useQueryContract';
 
 const StyledP = styled.p`
     margin: 3px;
@@ -15,12 +19,27 @@ const FlexContainer = styled.div`
     justify-self: flex-start;
 `;
 
-//TODO: Query twitter information
-export default function VuilderBlock() {
+export default function VuilderBlock({ twttag, address }: { twttag: string; address: string | undefined }) {
+    let [data, setData] = useState({ followers: 0, following: 0 });
+    let [reserve] = useContractReserve(address || '');
+
+    useEffect(() => {
+        console.log('HEY FREROT');
+        axios
+            .get(`${APIHOST}/vuilders/twitterinfo?twitter_tag=${twttag}`)
+            .then(res => {
+                if (res.status === 200 && res.data.message === 'Ok') {
+                    setData({ followers: res.data.follow_count, following: res.data.followed_count });
+                }
+            })
+            .catch(console.error);
+    }, [twttag]);
+
     return (
         <FlexContainer>
             <StyledP>
-                <StyledWord>238M</StyledWord> Followers - <StyledWord>12456</StyledWord> Tweets - <StyledWord>456</StyledWord> Coins circulating
+                <StyledWord>{data.followers}</StyledWord> Followers - <StyledWord>{data.following}</StyledWord> Following - <StyledWord>{1000 - reserve}</StyledWord>{' '}
+                Coins circulating
             </StyledP>
         </FlexContainer>
     );

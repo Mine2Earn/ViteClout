@@ -11,7 +11,7 @@ const StyledNavbar = styled.nav`
     justify-content: center;
     align-items: center;
 
-    .left  {
+    .left {
         margin-left: auto;
     }
 
@@ -19,16 +19,28 @@ const StyledNavbar = styled.nav`
 `;
 
 const StyledLink = styled(Link)`
-    color: palevioletred;
+    color: white;
     text-decoration: none;
     margin: 0 1em;
+
+    &:hover {
+        text-decoration: underline;
+    }
 `;
 
+const StyledP = styled.p`
+    color: #00a7ff;
+`;
+
+/**
+ * Website navbar
+ * @returns
+ */
 export default function Navbar() {
     return (
         <>
             <StyledNavbar>
-                <p>ViteClout</p>
+                <StyledP>ViteClout</StyledP>
                 <StyledLink to="/">Home</StyledLink>
                 <StyledLink to="/account">Account</StyledLink>
                 <StyledLink to="/explorer">Explorer</StyledLink>

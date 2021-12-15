@@ -48,7 +48,7 @@ export default function Vuilder(props: { twttag: string }) {
                             <ProfilePicture twttag={props.twttag} size={'150px'}></ProfilePicture>
                             <FlexContainerStart>
                                 <ColumnFlexContainer>
-                                    <VuilderInfo></VuilderInfo>
+                                    <VuilderInfo twttag={props.twttag} address={address}></VuilderInfo>
                                     <ProfileDescription twttag={props.twttag}></ProfileDescription>
                                 </ColumnFlexContainer>
                                 <ColumnFlexContainer>

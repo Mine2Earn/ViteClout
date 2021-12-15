@@ -9,7 +9,11 @@ const StyledWord = styled.span`
     font-weight: bold;
 `;
 
-export default function Title(props: any) {
+/**
+ * Description of the Website
+ * @returns
+ */
+export default function Description() {
     return (
         <StyledDesc>
             Viteclout is a social network based on the vite ecosystem, content creators are called <StyledWord>Vuilders</StyledWord> and they can mint their own coin on

@@ -1,13 +1,6 @@
+//@ts-ignore
+import { TwitterTimelineEmbed } from 'react-twitter-embed';
+
 export default function TwitterAllFeed() {
-    return (
-        <a
-            className="twitter-timeline"
-            data-width="400"
-            data-height="500"
-            data-theme="dark"
-            href="https://twitter.com/ekazukiii/lists/1470764148288102405?ref_src=twsrc%5Etfw"
-        >
-            Vuilder twitter timeline
-        </a>
-    );
+    return <TwitterTimelineEmbed options={{ width: '400', height: '500' }} theme="dark" sourceType="list" id="1470764148288102405"></TwitterTimelineEmbed>;
 }
