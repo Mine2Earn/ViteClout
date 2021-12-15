@@ -24,7 +24,7 @@ const Subtitle = styled.h3`
 
 function Explorer() {
     let header = ['Token id', 'Fan address', 'Type', 'Price'];
-    let tokenH = ['Token id', 'Buy price', 'Number of Holders', 'Token sold'];
+    let tokenH = ['Token id', 'Buy price', 'Circulating Supply', 'Number of Transactions'];
 
     let [body, setBody] = useState<Array<Array<string>>>([]);
     let [tokenB, setTokenB] = useState<Array<Array<string>>>([]);
@@ -105,7 +105,7 @@ function Explorer() {
             const results = response.data.result;
 
             const _tokenB = results.map(result => {
-                return ['@' + result.twitter_tag, `${result.buyPrice} $VITE`, result.holders, result.numberSell];
+                return ['@' + result.twitter_tag, `${result.buyPrice} $VITE`, result.circulating_supply, result.numberSell];
             });
 
             setTokenB(_tokenB);
