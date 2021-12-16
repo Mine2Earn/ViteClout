@@ -54,7 +54,7 @@ function App() {
 
     return (
         <>
-            <Toaster position="top-right" reverseOrder={false} />
+            <Toaster position="bottom-right" reverseOrder={false} />
             <VCContext.Provider value={connector}>
                 <UserContext.Provider value={{ isLoggedIn, user }}>
                     <div className="App">
