@@ -5,6 +5,7 @@ Viteclout is a social network based on the vite ecosystem, content creators are 
 This project has been done during the 'Hackathon: Grants Round 12 Hackathon' of Gitcoin.
 
 Backend Repo : https://github.com/Mine2Earn/ViteClout-backend
+
 Contract Repo : https://github.com/Mine2Earn/ViteClout-contract
 
 ## Demo
@@ -23,8 +24,8 @@ All the features requested for [Tier 3](https://gitcoin.co/issue/vitelabs/bounti
 
 ## Authors
 
--   [@Ekazukii](https://www.github.com/Ekazukii)
--   [@ObstinateM](https://www.github.com/ObstinateM)
+-   [@Ekazukii](https://www.github.com/Ekazukii) - Discord : Ekazuki#0196
+-   [@ObstinateM](https://www.github.com/ObstinateM) - Discord : Obstinate#2161
 
 ## Installation
 
