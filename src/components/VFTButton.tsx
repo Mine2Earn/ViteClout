@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { useVCMint, useVCSign, useVCTrade } from '../hooks/useViteConnect';
 import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import { APIHOST } from '../config';
 
 export enum ACTION {
     BUY,
@@ -46,6 +48,7 @@ export default function VFTButton(props: StyledProps) {
                         console.log(res);
                         toast.dismiss(buyLoad);
                         toast.success('Successfully bought VFT');
+                        axios.get(`${APIHOST}/refreshDB`);
                     })
                     .catch(err => {
                         console.error(err);
@@ -60,6 +63,7 @@ export default function VFTButton(props: StyledProps) {
                         console.log(res);
                         toast.dismiss(sealLoad);
                         toast.success('Successfully sold VFT');
+                        axios.get(`${APIHOST}/refreshDB`);
                     })
                     .catch(err => {
                         console.error(err);
@@ -74,6 +78,7 @@ export default function VFTButton(props: StyledProps) {
                         console.log(res);
                         toast.dismiss(mintLoad);
                         toast.success('Successfully minted VFT');
+                        axios.get(`${APIHOST}/refreshDB`);
                     })
                     .catch(err => {
                         console.error(err);
