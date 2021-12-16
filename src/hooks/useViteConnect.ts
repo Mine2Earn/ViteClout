@@ -1,5 +1,5 @@
 import { ViteAPI, accountBlock as accountBlockUtils } from '@vite/vitejs';
-import WS_RPC from '@vite/vitejs-ws';
+import HTTP_RPC from '@vite/vitejs-http';
 import { useContext, useEffect, useState } from 'react';
 import { VCContext, VCConnector } from '../App';
 import { ABI, CONTRACT_ADDRESS } from '../config';
@@ -7,7 +7,7 @@ import { useContractBalance } from './useQueryContract';
 
 const { createAccountBlock } = accountBlockUtils;
 
-const provider = new ViteAPI(new WS_RPC('wss://buidl.vite.net/gvite/ws', 60000), test => {
+const provider = new ViteAPI(new HTTP_RPC('https://buidl.vite.net/gvite', 60000), test => {
     console.log(test);
 });
 
