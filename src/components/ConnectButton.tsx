@@ -43,7 +43,7 @@ const Modal = styled.div`
 const ModalBox = styled.div`
     background-color: #04111d;
     min-width: 500px;
-    height: 300px;
+    height: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -140,7 +140,7 @@ export default function ConnectButton() {
                             </StyledButton>
                         )}
                         {!connected && <p>Connect with Vite Connect</p>}
-                        {connected && <p>You connected with address:</p>}
+                        {connected && <p>ou connected with address:</p>}
                         {connected && <p>{connector.accounts[0]}</p>}
                         <VCQRCode />
                         {!isLinked && <StyledButton onClick={linkWallet}>Link Wallet</StyledButton>}
