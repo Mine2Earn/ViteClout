@@ -6,7 +6,7 @@ This project has been done during the 'Hackathon: Grants Round 12 Hackathon' of 
 
 ## Demo
 
-https://viteclout.ekazuki.fr
+**Caution** the demo https://viteclout.ekazuki.fr is in **testnet** so you'll have to change the node in your ViteConnect app. Check end of this file and follow instructions to change it
 
 ## Optimizations
 
@@ -31,3 +31,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   npm i
   yarn start
 ```
+
+### How to change your ViteConnect node
+1. Open the Vite Wallet app on your phone
+2. Open yout account settings in the top left of the app
+3. Open the settings tab
+4. Open Node Settings then click on VITE
+5. Click add Custom Node and add `https://buidl.vite.net/gvite`
