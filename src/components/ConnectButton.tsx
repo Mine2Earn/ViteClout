@@ -140,7 +140,7 @@ export default function ConnectButton() {
                             </StyledButton>
                         )}
                         {!connected && <p>Connect with Vite Connect</p>}
-                        {connected && <p>ou connected with address:</p>}
+                        {connected && <p>You are connected with address:</p>}
                         {connected && <p>{connector.accounts[0]}</p>}
                         <VCQRCode />
                         {!isLinked && <StyledButton onClick={linkWallet}>Link Wallet</StyledButton>}
