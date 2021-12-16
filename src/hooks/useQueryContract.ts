@@ -1,9 +1,9 @@
 import { ViteAPI, abi, wallet } from '@vite/vitejs';
 import { useEffect, useState } from 'react';
-import WS_RPC from '@vite/vitejs-ws';
-import { OFF_CHAIN_CODE, ABI, CONTRACT_ADDRESS, RPC } from '../config';
+import HTTP_RPC from '@vite/vitejs-http';
+import { OFF_CHAIN_CODE, ABI, CONTRACT_ADDRESS } from '../config';
 
-const provider = new ViteAPI(new WS_RPC(RPC, 60000), test => {
+const provider = new ViteAPI(new HTTP_RPC('https://buidl.vite.net/gvite', 60000), test => {
     console.log(test);
 });
 
@@ -58,6 +58,7 @@ export function useContractBalance(tokenId, holderId) {
 
     useEffect(() => {
         if (!wallet.isValidAddress(tokenId)) return;
+        if (!wallet.isValidAddress(holderId)) return;
 
         let contractBuyCall = abi.encodeFunctionCall(ABI, [tokenId, holderId], 'getBalance');
         provider

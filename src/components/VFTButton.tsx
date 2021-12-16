@@ -68,7 +68,11 @@ export default function VFTButton(props: StyledProps) {
                     .catch(err => {
                         console.error(err);
                         toast.dismiss(sealLoad);
-                        toast.error('Failed to sell VFT, are you connected?');
+                        if (err === 'Not enough VFT') {
+                            toast.error('You have not enough VFT');
+                        } else {
+                            toast.error('Failed to sell VFT, are you connected?');
+                        }
                     });
                 break;
             case ACTION.MINT:
