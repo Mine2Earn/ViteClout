@@ -1,6 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { VCContext } from '../App';
 import QRCode from 'qrcode.react';
+import styled from 'styled-components';
+
+const BorderedDiv = styled.div`
+    border: 20px solid white;
+`;
 
 export default function VCQRCode() {
     const connector = useContext(VCContext);
@@ -38,9 +43,9 @@ export default function VCQRCode() {
 
     if (URI && !connected) {
         return (
-            <div>
+            <BorderedDiv>
                 <QRCode value={URI} />
-            </div>
+            </BorderedDiv>
         );
     }
 
