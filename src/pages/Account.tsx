@@ -176,7 +176,7 @@ export default function Account() {
                 console.error(err);
             });
 
-        if (userInfo.isLoggedIn) {
+        if (userInfo.isLoggedIn && userInfo.user) {
             axios.get(`${APIHOST}/vuilders/isvuilder?twitter_tag=${userInfo.user.twitter_id}`).then(res => {
                 setIsVuilder(res.data.isVuilder);
             });

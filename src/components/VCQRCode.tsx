@@ -3,8 +3,11 @@ import { VCContext } from '../App';
 import QRCode from 'qrcode.react';
 import styled from 'styled-components';
 
-const BorderedDiv = styled.div`
-    border: 20px solid white;
+const Container = styled.div`
+    background-color: white;
+    width: 50%;
+    height: 50%;
+    padding: 2rem 0;
 `;
 
 export default function VCQRCode() {
@@ -43,9 +46,9 @@ export default function VCQRCode() {
 
     if (URI && !connected) {
         return (
-            <BorderedDiv>
+            <Container>
                 <QRCode value={URI} />
-            </BorderedDiv>
+            </Container>
         );
     }
 
