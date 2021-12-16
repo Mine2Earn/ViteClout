@@ -8,6 +8,8 @@ Backend Repo : https://github.com/Mine2Earn/ViteClout-backend
 
 Contract Repo : https://github.com/Mine2Earn/ViteClout-contract
 
+Video presentation : https://www.youtube.com/watch?v=gQ5fwnacBMk
+
 ## Demo
 
 **Caution** the demo https://viteclout.ekazuki.fr is in **testnet** so you'll have to change the node in your ViteConnect app. Check end of this file and follow instructions to change it
