@@ -56,7 +56,7 @@ export default function Vuilder(props: { twttag: string }) {
         axios
             .get(`${APIHOST}/vuilders/infofromtwt?twitter_tag=["${props.twttag.replace('@', '')}"]`)
             .then(res => {
-                console.log('VUILDER INFO', res.data);
+                console.log(res.data);
                 setVuilderInfo(res.data.vuilders[0]);
             })
             .catch(err => {
@@ -65,20 +65,11 @@ export default function Vuilder(props: { twttag: string }) {
             });
     }, []);
 
-    if (!isRealVuilder) {
-        return (
-            <>
-                <Navbar />
-                <Title size={2}>This Vuilder doesnt exist</Title>
-            </>
-        );
-    }
-
     if (!vuilderInfo)
         return (
             <>
                 <Navbar />
-                <Title size={2}>Loading...</Title>
+                <Title size={2}>This Vuilder doesnt exist</Title>
             </>
         );
 
