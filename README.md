@@ -4,6 +4,9 @@ Viteclout is a social network based on the vite ecosystem, content creators are 
 
 This project has been done during the 'Hackathon: Grants Round 12 Hackathon' of Gitcoin.
 
+Backend Repo : https://github.com/Mine2Earn/ViteClout-backend
+Contract Repo : https://github.com/Mine2Earn/ViteClout-contract
+
 ## Demo
 
 **Caution** the demo https://viteclout.ekazuki.fr is in **testnet** so you'll have to change the node in your ViteConnect app. Check end of this file and follow instructions to change it
