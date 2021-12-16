@@ -149,7 +149,7 @@ function Explorer() {
                     <Subtitle>Tokens explorer</Subtitle>
                     <label htmlFor="sort">Sort by :</label>
                     <select name="sort" id="sort" onChange={onChange}>
-                        <option value="holders">Number of holder</option>
+                        <option value="holders">Number of circulating supply</option>
                         <option value="price">Buy price</option>
                         <option value="sold">Token solded</option>
                     </select>
