@@ -8,6 +8,11 @@ import toast from 'react-hot-toast';
 const StyledSearch = styled.input`
     width: 24em;
     height: 80%;
+    border: none;
+    background-color: #202225;
+    padding: 1em 2em;
+    border-radius: 6px;
+    color: #8a939b;
 `;
 
 export default function SearchBar(props: { onSearch: Function }) {
