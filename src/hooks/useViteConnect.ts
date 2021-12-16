@@ -3,6 +3,7 @@ import WS_RPC from '@vite/vitejs-ws';
 import { useContext, useEffect, useState } from 'react';
 import { VCContext, VCConnector } from '../App';
 import { ABI, CONTRACT_ADDRESS } from '../config';
+import { useContractBalance } from './useQueryContract';
 
 const { createAccountBlock } = accountBlockUtils;
 
@@ -49,6 +50,8 @@ export function useVCMint() {
 
 export function useVCTrade(VFTId: string) {
     const connector: VCConnector = useContext(VCContext);
+    const account = useVCAccount();
+    const [balance] = useContractBalance(VFTId, account);
 
     let buy = async price => {
         if (!connector.connected) return Promise.reject('ViteConnect no connected');
@@ -77,6 +80,7 @@ export function useVCTrade(VFTId: string) {
 
     let sell = async price => {
         if (!connector.connected) return Promise.reject('ViteConnect no connected');
+        if (balance <= 0) return Promise.reject('Not enough VFT');
 
         console.log('price is ' + price);
 
@@ -123,4 +127,18 @@ export function useVCConnect() {
     useEffect(() => (connector.connected ? setConnected(true) : setConnected(false)), []);
 
     return connected;
+}
+
+export function useVCAccount() {
+    const connected = useVCConnect();
+    const connector: VCConnector = useContext(VCContext);
+    const [account, setAccount] = useState<undefined | string>(undefined);
+
+    useEffect(() => {
+        if (connected) {
+            setAccount(connector.accounts[0]);
+        }
+    }, [connected, connector.accounts]);
+
+    return account;
 }

@@ -58,6 +58,7 @@ export function useContractBalance(tokenId, holderId) {
 
     useEffect(() => {
         if (!wallet.isValidAddress(tokenId)) return;
+        if (!wallet.isValidAddress(holderId)) return;
 
         let contractBuyCall = abi.encodeFunctionCall(ABI, [tokenId, holderId], 'getBalance');
         provider
