@@ -176,9 +176,11 @@ export default function Account() {
                 console.error(err);
             });
 
-        axios.get(`${APIHOST}/vuilders/isvuilder?twitter_tag=${userInfo.user.twitter_id}`).then(res => {
-            setIsVuilder(res.data.isVuilder);
-        });
+        if (userInfo.isLoggedIn) {
+            axios.get(`${APIHOST}/vuilders/isvuilder?twitter_tag=${userInfo.user.twitter_id}`).then(res => {
+                setIsVuilder(res.data.isVuilder);
+            });
+        }
     };
 
     useEffect(() => {
